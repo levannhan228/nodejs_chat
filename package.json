@@ -1,0 +1,22 @@
+{
+  "name": "nodejs_chat",
+  "version": "1.0.0",
+  "description": "nodejs_chat",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/levannhan228/nodejs_chat.git"
+  },
+  "author": "Le Nhan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/levannhan228/nodejs_chat/issues"
+  },
+  "homepage": "https://github.com/levannhan228/nodejs_chat#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
