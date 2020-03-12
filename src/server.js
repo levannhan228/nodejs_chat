@@ -1,23 +1,23 @@
 import express from 'express';
 require('dotenv').config()
 import connectDB from './config/connectDB';
-import ContactModel from './models/contact.model';
+import configViewEngine from './config/viewEngine'
+
+//Create app
 let app = express();
 
 //Connect Database
 connectDB();
 
-app.get("/test-database", async (req, res) => {
-  try {
-    let item = {
-      userId: "2323122132",
-      contacId: "2312321",
-    };
-    let contact = await ContactModel.createNew(item)
-    res.send(contact);
-  } catch (err) {
-    console.log(err)
-  }
+//Config view engine
+
+configViewEngine(app)
+app.get("/", (req, res) => {
+  return res.render("main/master")
+});
+
+app.get("/login-register", (req, res) => {
+  return res.render("auth/loginRegister")
 });
 
 app.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
