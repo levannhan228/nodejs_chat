@@ -2,7 +2,8 @@ import express from 'express';
 require('dotenv').config()
 import connectDB from './config/connectDB';
 import configViewEngine from './config/viewEngine'
-import initRoutes from './routes/web'
+import initRoutes from './routes/web';
+import bodyParser from 'body-parser';
 //Create app
 let app = express();
 
@@ -10,9 +11,10 @@ let app = express();
 connectDB();
 
 //Config view engine
-
 configViewEngine(app);
 
+//
+app.use(bodyParser.urlencoded({extended: true}));
 //add route
 initRoutes(app);
 
