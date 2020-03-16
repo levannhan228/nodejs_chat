@@ -8,6 +8,7 @@ let initRouters = (app) => {
   router.get("/", home.getHome);
   router.get("/login-register", auth.getLoginRegister);
   router.post("/register", authValid.register, auth.postRegister);
+  router.get("/verify/:token", auth.verifyAccount);
   // router.get("/logout", auth.getLogout);
 
   return app.use("/", router);

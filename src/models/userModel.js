@@ -12,7 +12,7 @@ let UserSchema = new Schema({
     email: { type: String, trim: true },
     password: String,
     isActive: { type: Boolean, default: false },
-    veryfyToken: String
+    verifyToken: String
   },
   facebook: {
     uid: String,
@@ -30,11 +30,23 @@ let UserSchema = new Schema({
 });
 
 UserSchema.statics = {
-  createNew(item){
+  createNew(item) {
     return this.create(item);
   },
-  findByEmail(email){
-    return this.findOne({"local.email":email}).exec()
+  findByEmail(email) {
+    return this.findOne({ "local.email": email }).exec()
+  },
+  removeById(id) {
+    return this.findByIdAndRemove(id).exec();
+  },
+  findByToken(token) {
+    return this.findOne({ "local.verifyToken": token }).exec()
+  },
+  verify(token) {
+    return this.findOneAndUpdate(
+      { "local.verifyToken": token },
+      { "local.isActive": true, "local.verifyToken": null }
+    ).exec();
   }
 }
 
