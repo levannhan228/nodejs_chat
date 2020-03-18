@@ -6,24 +6,28 @@ import initRoutes from './routes/web';
 import bodyParser from 'body-parser';
 import connectFlash from 'connect-flash';
 import configSession from './config/session';
+import passport from 'passport';
 //Create app
 let app = express();
 
 //Connect Database
 connectDB();
 
-//config session
+//Config session
 configSession(app);
 
 //Config view engine
 configViewEngine(app);
 
-//
+//Config bodyParser
 app.use(bodyParser.urlencoded({extended: true}));
 
 //enable connectFlash
 app.use(connectFlash());
 
+// Config passport
+app.use(passport.initialize());
+app.use(passport.session());
 //add route
 initRoutes(app);
 
