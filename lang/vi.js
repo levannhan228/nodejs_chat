@@ -21,7 +21,8 @@ export const transSuccess = {
   account_active: "Kích hoạt tài khoản thành công",
   loginSuccess: (username)=>{
     return `Xin chào ${username}, bạn đến với connect chat`
-  }
+  },
+  logout_success:"Tài khoản đã được đăng xuất"
 };
 
 export const transMail = {
