@@ -11,7 +11,9 @@ export const transErrors = {
   account_not_active: "Email này đã được đăng ký nhưng chưa kích hoạt",
   token_undefined: "link kích hoạt đã hết hạn",
   login_failed: "Sai tài khoản hoặc mật khẩu!",
-  server_error: "Error, Chắc có vấn đề gì đó"
+  server_error: "Error, Chắc có vấn đề gì đó",
+  avatar_type: "Định dạng không phù hợp, vui lòng chọn file jpg & png.",
+  avatar_size: "Kích thước ảnh không phù hợp phải < 1MB"
 };
 
 export const transSuccess = {
@@ -19,10 +21,11 @@ export const transSuccess = {
     return `Tài khoản <strong>${userEmail}</strong> đã tạo thành công, vui lòng vào email để kích hoạt tài khoản`;
   },
   account_active: "Kích hoạt tài khoản thành công",
-  loginSuccess: (username)=>{
+  loginSuccess: (username) => {
     return `Xin chào ${username}, bạn đến với connect chat`
   },
-  logout_success:"Tài khoản đã được đăng xuất"
+  logout_success: "Tài khoản đã được đăng xuất",
+  avatar_updated: "Cập nhật ảnh đại diện thành công"
 };
 
 export const transMail = {
