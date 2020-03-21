@@ -12,65 +12,67 @@ import pem from 'pem';
 import https from 'https';
 
 //cấu hình http ảo
-pem.config({
-  pathOpenSSL:'C:\\Program Files\\OpenSSL-Win64\\bin\\openssl'
-})
-pem.createCertificate({ days: 1, selfSigned: true }, function (err, keys) {
-  if (err) {
-    throw err;
-  }
-  //Create app
-  let app = express();
+// pem.config({
+//   pathOpenSSL:'C:\\Program Files\\OpenSSL-Win64\\bin\\openssl'
+// })
+// pem.createCertificate({ days: 1, selfSigned: true }, function (err, keys) {
+//   if (err) {
+//     throw err;
+//   }
+//   //Create app
+//   let app = express();
 
-  //Connect Database
-  connectDB();
+//   //Connect Database
+//   connectDB();
 
-  //Config session
-  configSession(app);
+//   //Config session
+//   configSession(app);
 
-  //Config view engine
-  configViewEngine(app);
+//   //Config view engine
+//   configViewEngine(app);
 
-  //Config bodyParser
-  app.use(bodyParser.urlencoded({ extended: true }));
+//   //Config bodyParser
+//   app.use(bodyParser.urlencoded({ extended: true }));
 
-  //enable connectFlash
-  app.use(connectFlash());
+//   //enable connectFlash
+//   app.use(connectFlash());
 
-  // Config passport
-  app.use(passport.initialize());
-  app.use(passport.session());
-  //add route
-  initRoutes(app);
-  https.createServer({ key: keys.serviceKey, cert: keys.certificate }, app).listen(process.env.APP_PORT, process.env.APP_HOST, () => {
-    console.log(`hello nhan, i'm running at ${process.env.APP_HOST}:${process.env.APP_PORT}`)
-  });
+//   // Config passport
+//   app.use(passport.initialize());
+//   app.use(passport.session());
+//   //add route
+//   initRoutes(app);
+//   https.createServer({ key: keys.serviceKey, cert: keys.certificate }, app).listen(process.env.APP_PORT, process.env.APP_HOST, () => {
+//     console.log(`hello nhan, i'm running at ${process.env.APP_HOST}:${process.env.APP_PORT}`)
+//   });
   
-})
-// //Create app
-// let app = express();
+// })
 
-// //Connect Database
-// connectDB();
 
-// //Config session
-// configSession(app);
+//Create app
+let app = express();
 
-// //Config view engine
-// configViewEngine(app);
+//Connect Database
+connectDB();
 
-// //Config bodyParser
-// app.use(bodyParser.urlencoded({ extended: true }));
+//Config session
+configSession(app);
 
-// //enable connectFlash
-// app.use(connectFlash());
+//Config view engine
+configViewEngine(app);
 
-// // Config passport
-// app.use(passport.initialize());
-// app.use(passport.session());
-// //add route
-// initRoutes(app);
+//Config bodyParser
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
-//   console.log(`hello nhan, i'm running at ${process.env.APP_HOST}:${process.env.APP_PORT}`)
-// });
+//enable connectFlash
+app.use(connectFlash());
+
+// Config passport
+app.use(passport.initialize());
+app.use(passport.session());
+//add route
+initRoutes(app);
+
+app.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
+  console.log(`hello nhan, i'm running at ${process.env.APP_HOST}:${process.env.APP_PORT}`)
+});
