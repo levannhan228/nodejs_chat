@@ -33,7 +33,7 @@ function updateUserInfo() {
       imagePreview.show();
       fileReader.readAsDataURL(fileData);
 
-      let fromData = new formData();
+      let formData = new FormData();
       formData.append("avatar", fileData);
 
       userAvatar = formData;
@@ -70,18 +70,28 @@ $(document).ready(function () {
       alertify.notify("Bạn phải thay đổi thông tin trước khi cập nhật", "error", 5);
       return false
     }
-    $ajax({
-      url: "user/update-avatar",
+    $.ajax({
+      url: "/user/update-avatar",
       type: "put",
       cache: false,
       contentType: false,
       processData: false,
       data: userAvatar,
-      success: function(result){
-        
-      },
-      error: function(error){
+      success: function (result) {
+        console.log(result);
+        $(".user-modal-alter-success").find("span").text(result.message);
+        $(".user-modal-alter-success").css("display", "block");
+        // update image small in nabar
+        $("#navbar-avatar").attr("src",result.imageSrc);
 
+        originAvatarSrc = result.imageSrc;
+        $("#input-btn-cancel-update-user").click();
+      },
+      error: function (error) {
+        $(".user-modal-alter-error").find("span").text(error.responseText);
+        $(".user-modal-alter-error").css("display", "block");
+
+        $("#input-btn-cancel-update-user").click();
       }
     })
   });
@@ -89,6 +99,7 @@ $(document).ready(function () {
   $("#input-btn-cancel-update-user").bind("click", function () {
     userAvatar = null;
     userInfo = {};
+    $("#input-change-avatar").val(null);
     $("#user-modal-avatar").attr("src", originAvatarSrc)
   });
 });

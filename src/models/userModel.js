@@ -53,12 +53,16 @@ UserSchema.statics = {
     return this.findById(id).exec();
   },
 
-  findByFacebookUid(uid){
+  findByFacebookUid(uid) {
     return this.findOne({ "facebook.uid": uid }).exec()
   },
 
-  findByGoogleUid(uid){
+  findByGoogleUid(uid) {
     return this.findOne({ "google.uid": uid }).exec()
+  },
+
+  updateUser(id, item) {
+    return this.findByIdAndUpdate(id, item).exec();// các hàm update trong moongose trả về dữ liệu cũ không phải dữ liệu vừa update
   }
 };
 UserSchema.methods = {
