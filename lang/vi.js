@@ -3,6 +3,10 @@ export const transValidation = {
   gender_incorrect: "không nên chỉnh sửa code",
   password_incorrect: "Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, chữ số và ký tự đặc biệt",
   password_confirmation_incorrect: "Nhập lại mật khẩu chưa chính xác",
+  update_username: "Username trong khoảng từ 2-18 kí tự và không được phép chứa kí tự đặc biệt",
+  update_gender: "Chắc có lỗi gì đó",
+  update_address: "Địa chỉ không quá 40 kí tự",
+  update_phone: "Số điện thoại không đúng",
 };
 
 export const transErrors = {
@@ -25,7 +29,7 @@ export const transSuccess = {
     return `Xin chào ${username}, bạn đến với connect chat`
   },
   logout_success: "Tài khoản đã được đăng xuất",
-  avatar_updated: "Cập nhật ảnh đại diện thành công"
+  user_info_updated: "Cập nhật thông tin người dùng thành công"
 };
 
 export const transMail = {
