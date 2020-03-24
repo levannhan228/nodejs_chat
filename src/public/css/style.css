@@ -1275,6 +1275,6 @@ label:focus,
 #user-profile-modal input:hover, #user-profile-modal input:focus {
   border-color: #576574
 }
-.user-modal-alter-error, .user-modal-alter-success{
+.user-modal-alter-error, .user-modal-alter-success, .user-modal-password-alter-error,.user-modal-password-alter-success{
   display: none;
 }
