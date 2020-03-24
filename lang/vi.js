@@ -7,6 +7,7 @@ export const transValidation = {
   update_gender: "Chắc có lỗi gì đó",
   update_address: "Địa chỉ không quá 40 kí tự",
   update_phone: "Số điện thoại không đúng",
+  keyword_find_user: "Tìm kiếm không được phép chứa kí tự đặc biệt"
 };
 
 export const transErrors = {
