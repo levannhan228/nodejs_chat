@@ -18,6 +18,7 @@ let storageAvatar = multer.diskStorage({
     callback(null, avatarName);
   }
 });
+
 let avatarUploadFile = multer({
   storage: storageAvatar,
   limits: { fileSize: app.avatar_limit_size }
@@ -77,7 +78,31 @@ let updateInfo = async (req, res) => {
     return res.status(500).send(error);
   }
 }
+
+let updatePassword = async (req, res) => {
+  let errorArr = [];
+  let vadidationErrors = validationResult(req);
+
+  if (!vadidationErrors.isEmpty()) {
+    let errors = Object.values(validationResult(req).mapped());
+    errors.forEach(item => {
+      errorArr.push(item.msg)
+    });
+    return res.status(500).send(errorArr);
+  }
+  try {
+    let updateUserItem = req.body;
+    await user.updatePassword(req.user._id, updateUserItem);
+    let result = {
+      message: transSuccess.user_password_updated
+    };
+    return res.status(200).send(result);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
 module.exports = {
   updateAvatar: updateAvatar,
-  updateInfo: updateInfo
+  updateInfo: updateInfo,
+  updatePassword: updatePassword
 }

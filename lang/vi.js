@@ -13,11 +13,13 @@ export const transErrors = {
   account_in_use: "Email này đã được sử dụng.",
   account_removed: "Tài khoản này đã bị xóa khỏi hệ thống, vui long liên hệ để biết thêm chi tiết",
   account_not_active: "Email này đã được đăng ký nhưng chưa kích hoạt",
+  account_undefined: "Tài khoản không tồn tại",
   token_undefined: "link kích hoạt đã hết hạn",
   login_failed: "Sai tài khoản hoặc mật khẩu!",
   server_error: "Error, Chắc có vấn đề gì đó",
   avatar_type: "Định dạng không phù hợp, vui lòng chọn file jpg & png.",
-  avatar_size: "Kích thước ảnh không phù hợp phải < 1MB"
+  avatar_size: "Kích thước ảnh không phù hợp phải < 1MB",
+  user_current_password_failed: "Kiểm tra lại mật khẩu hiện tại"
 };
 
 export const transSuccess = {
@@ -29,7 +31,8 @@ export const transSuccess = {
     return `Xin chào ${username}, bạn đến với connect chat`
   },
   logout_success: "Tài khoản đã được đăng xuất",
-  user_info_updated: "Cập nhật thông tin người dùng thành công"
+  user_info_updated: "Cập nhật thông tin người dùng thành công",
+  user_password_updated: "Cập nhật mật khẩu thành công"
 };
 
 export const transMail = {
