@@ -40,7 +40,7 @@ let updateAvatar = (req, res) => {
       // update người dùng với dữ liệu updateUserItem theo id
       let userUpdate = await user.updateUser(req.user._id, updateUserItem);
       // xóa avatar cũ xài thư viện fs-etra
-      await fsExtra.remove(`${app.avatar_directory}/${userUpdate.avatar}`);
+      // await fsExtra.remove(`${app.avatar_directory}/${userUpdate.avatar}`);
 
       let result = {
         message: transSuccess.user_info_updated,

@@ -3,7 +3,7 @@ let Schema = mongoose.Schema;
 
 let ContactSchema = new Schema({
   userId: String,
-  contacId: String,
+  contactId: String,
   status: { type: Boolean, default: false },
   createAt: { type: Number, default: Date.now },
   updateAt: { type: Number, default: null },
@@ -22,6 +22,34 @@ ContactSchema.statics = {
         { "contacId": userId },
       ]
     }).exec();
+  },
+
+  checkExists(userId, contacId) {
+    return this.findOne({
+      $or: [
+        {
+          $and: [
+            { "userId": userId },
+            { "contactId": contacId }
+          ]
+        },
+        {
+          $and: [
+            { "userId": contacId },
+            { "contactId": userId }
+          ]
+        },
+      ]
+    }).exec();
+  },
+
+  removeRequestContact(userId, contactId) {
+    return this.remove().exec({
+      $and: [
+        { "userId": userId },
+        { "contactId": contactId }
+      ]
+    })
   }
 }
 module.exports = mongoose.model("contact", ContactSchema);
