@@ -15,6 +15,8 @@ function callFindUsers(element) {
 
     $.get(`/contact/find-users/${keyword}`, function(data){
       $("#find-user ul").html(data);
+      addContact(); // sau khi tìm kiếm thành công chạy ajax addContact
+      removeRequestContact();
     });
   }
 }
