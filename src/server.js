@@ -5,8 +5,13 @@ import configViewEngine from './config/viewEngine'
 import initRoutes from './routes/web';
 import bodyParser from 'body-parser';
 import connectFlash from 'connect-flash';
-import configSession from './config/session';
+import session from './config/session';
 import passport from 'passport';
+import http from "http";
+import socketio from "socket.io";
+import initSockets from './sockets/index';
+import cookieParser from 'cookie-parser';
+import configSocketIo from './config/socketio';
 
 import pem from 'pem';
 import https from 'https';
@@ -45,18 +50,22 @@ import https from 'https';
 //   https.createServer({ key: keys.serviceKey, cert: keys.certificate }, app).listen(process.env.APP_PORT, process.env.APP_HOST, () => {
 //     console.log(`hello nhan, i'm running at ${process.env.APP_HOST}:${process.env.APP_PORT}`)
 //   });
-  
+
 // })
 
 
 //Create app
 let app = express();
 
+// kết hợp socket.io và express
+let server = http.createServer(app);
+let io = socketio(server);
+
 //Connect Database
 connectDB();
 
 //Config session
-configSession(app);
+session.config(app);
 
 //Config view engine
 configViewEngine(app);
@@ -67,12 +76,22 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //enable connectFlash
 app.use(connectFlash());
 
+// User Cookie Parser xài sockets yêu cầu có thằng này
+app.use(cookieParser())
+
 // Config passport
 app.use(passport.initialize());
 app.use(passport.session());
+
 //add route
 initRoutes(app);
 
-app.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
+//config soket.io
+configSocketIo(io, cookieParser, session.sessionStore);
+
+//add all sockets
+initSockets(io);
+
+server.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
   console.log(`hello nhan, i'm running at ${process.env.APP_HOST}:${process.env.APP_PORT}`)
 });
