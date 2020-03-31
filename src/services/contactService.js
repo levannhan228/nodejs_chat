@@ -1,5 +1,6 @@
 import ContactModel from './../models/contactModel';
 import UserModel from './../models/userModel';
+import NotificationModel from './../models/notificationModel';
 import _ from 'lodash';
 let findUsersContact = (currentUserId, keyword) => {
   return new Promise(async (resolve, reject) => {
@@ -28,16 +29,26 @@ let addNew = (currentUserId, contactId) => {
       contactId: contactId
     };
     let newContact = await ContactModel.createNew(newContactItem);
-    resolve(newContact)
+
+    let notificationItem = {
+      senderId: currentUserId,
+      receiverId: contactId,
+      type: NotificationModel.types.ADD_CONTACT,
+    };
+    await NotificationModel.model.createNew(notificationItem);
+    resolve(newContact);
   });
 }
 
 let removeRequestContact = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
     let removeReq = await ContactModel.removeRequestContact(currentUserId, contactId);
-    if(removeReq.result.n ===0){
+    if (removeReq.result.n === 0) {
       return reject(false);
     }
+    // xóa thông báo
+    let notifTypeAddContact = NotificationModel.types.ADD_CONTACT;
+    await NotificationModel.model.removeRequestContactNotification(currentUserId, contactId, notifTypeAddContact);
     resolve(true);
   });
 }
