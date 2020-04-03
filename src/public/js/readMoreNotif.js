@@ -7,7 +7,7 @@ $(document).ready(function () {
 
     $.get(`/notification/read-more?skipNumber=${skipNumber}`, function (notifcations) {
       if (!notifcations.length) {
-        alertify.notify("không còn thông báo", "error", 7);
+        alertify.notify("không còn thông báo", "error", 5);
         $("#link-read-more-notif").css("display", "inline-block");
         $(".lds-ellipsis").css("display", "none");
         return false;
