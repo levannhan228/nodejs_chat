@@ -29,13 +29,18 @@ NotificationSchema.statics = {
     }).sort({ "crrateAt": -1 }).limit(limit).exec();
   },
 
-  countNotifUnread(userId){
+  countNotifUnread(userId) {
     return this.count({
-      $and:[
-        { "receiverId": userId},
-        {"isRead":false}
+      $and: [
+        { "receiverId": userId },
+        { "isRead": false }
       ]
     }).exec()
+  },
+  readMore(userId, skip, limit) {
+    return this.find({
+      "receiverId": userId
+    }).sort({ "crrateAt": -1 }).skip(skip).limit(limit).exec();
   }
 }
 
@@ -52,7 +57,7 @@ const NOTIFICATION_CONTENTS = {
         <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
       </div>`
       }
-      return  `<div data-uid="${userId}">
+      return `<div data-uid="${userId}">
       <img class="avatar-small" src="images/users/${userAvatar}" alt="">
       <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
     </div>`
