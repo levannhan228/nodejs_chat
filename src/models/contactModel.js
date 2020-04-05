@@ -44,12 +44,70 @@ ContactSchema.statics = {
   },
 
   removeRequestContact(userId, contactId) {
-    return this.remove().exec({
+    return this.remove({
       $and: [
-        { "userId": userId },
+        {$or: [
+          {"userId": userId},
+          {"contactId": contactId}
+        ]},
         { "contactId": contactId }
       ]
-    })
-  }
-}
+    }).exec()
+  },
+  // lấy danh sách bạn bè
+  getContact(userId, limit) {
+    return this.find({
+      $and: [
+        { "userId": userId },
+        { "status": true }
+      ]
+    }).sort({ "createdAt": -1 }).limit(limit).exec()
+  },
+  // lấy danh sách chờ xác nhận bạn bè me -> you
+  getContactsSent(userId, limit) {
+    return this.find({
+      $and: [
+        { "userId": userId },
+        { "status": false }
+      ]
+    }).sort({ "createdAt": -1 }).limit(limit).exec()
+  },
+  // lấy danh sách chờ xác nhận bạn bè you -> me
+  getContactsReceived(userId, limit) {
+    return this.find({
+      $and: [
+        { "contactId": userId },
+        { "status": false }
+      ]
+    }).sort({ "createdAt": -1 }).limit(limit).exec()
+  },
+
+  // đếm số bạn bè
+  countAllContacts(userId) {
+    return this.count({
+      $and: [
+        { "userId": userId },
+        { "status": true }
+      ]
+    }).exec()
+  },
+  // đếm danh sách chờ xác nhận bạn bè me -> you
+  countAllContactsSent(userId) {
+    return this.count({
+      $and: [
+        { "userId": userId },
+        { "status": false }
+      ]
+    }).exec()
+  },
+  // đếm danh sách chờ xác nhận bạn bè you -> me
+  countAllContactsReceived(userId) {
+    return this.count({
+      $and: [
+        { "contactId": userId },
+        { "status": false }
+      ]
+    }).exec()
+  },
+};
 module.exports = mongoose.model("contact", ContactSchema);

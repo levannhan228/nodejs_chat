@@ -8,7 +8,8 @@ let addNewContact = (io) => {
       let currentUser = {
         id: socket.request.user._id,
         username: socket.request.user.username,
-        avatar: socket.request.user.avatar
+        avatar: socket.request.user.avatar,
+        address: (socket.request.user.address !== null) ? socket.request.user.address : ""
       };
 
       //băn về 2 thông báo nếu mở 2 tab cùng một tài khoản

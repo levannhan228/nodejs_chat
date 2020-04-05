@@ -1282,7 +1282,11 @@ label:focus,
   margin-right: 20px;;
 }
 
-.read-more-notif{
+.read-more-notif,
+.read-more-contacts,
+.read-more-notif-contacts-sent,
+.read-more-notif-contacts-receive
+{
   text-align: center;
 }
 
