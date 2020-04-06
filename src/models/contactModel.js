@@ -61,7 +61,7 @@ ContactSchema.statics = {
         { "userId": userId },
         { "status": true }
       ]
-    }).sort({ "createdAt": -1 }).limit(limit).exec()
+    }).sort({ "createdAt": -1 }).limit(limit).exec();
   },
   // lấy danh sách chờ xác nhận bạn bè me -> you
   getContactsSent(userId, limit) {
@@ -79,7 +79,7 @@ ContactSchema.statics = {
         { "contactId": userId },
         { "status": false }
       ]
-    }).sort({ "createdAt": -1 }).limit(limit).exec()
+    }).sort({ "createdAt": -1 }).limit(limit).exec();
   },
 
   // đếm số bạn bè
@@ -108,6 +108,33 @@ ContactSchema.statics = {
         { "status": false }
       ]
     }).exec()
+  },
+  // readmore số bạn bè
+  readMoreContacts(userId, skip, limit){
+    return this.find({
+      $and: [
+        { "userId": userId },
+        { "status": true }
+      ]
+    }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
+  },
+  // readmore danh sách chờ xác nhận bạn bè me -> you
+  readMoreContactsSent(userId, skip, limit){
+    return this.find({
+      $and: [
+        { "userId": userId },
+        { "status": false }
+      ]
+    }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec()
+  },
+  // readmore danh sách chờ xác nhận bạn bè you -> me
+  readMoreContactsReceived(userId, skip, limit){
+    return this.find({
+      $and: [
+        { "contactId": userId },
+        { "status": false }
+      ]
+    }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
   },
 };
 module.exports = mongoose.model("contact", ContactSchema);
