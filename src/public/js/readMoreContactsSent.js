@@ -28,13 +28,14 @@ $(document).ready(function () {
             <div class="user-address">
               <span>&nbsp ${(user.address !== null) ? user.address : ""}</span>
             </div>
-            <div class="user-remove-request-sent action-danger" data-uid="${user._id}">
+            <div class="user-remove-request-contact-sentt action-danger display-important" data-uid="${user._id}">
               Hủy yêu cầu
             </div>
           </div>
         </li>`);
       });
 
+      removeRequestContactSent();
       $("#link-read-more-notif-contacts-sent").css("display", "inline-block");
       $(".lds-ellipsis-contacts-sent").css("display", "none");
     });
