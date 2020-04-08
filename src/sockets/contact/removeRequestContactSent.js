@@ -1,11 +1,11 @@
-import { pushSocketIdToArray, emitNotifyToArray, removeSocketIdFromArray } from './../../helpers/socketHelper'
-let removeRequestContact = (io) => {
+import { pushSocketIdToArray, emitNotifyToArray, removeSocketIdFromArray } from '../../helpers/socketHelper'
+let removeRequestContactSent = (io) => {
   let clients = {};
   io.on("connection", (socket) => {
     //thêm soket id vào array mỗi khi mở tab or reset 
     clients = pushSocketIdToArray(clients, socket.request.user._id, socket.id)
 
-    socket.on("remove-request-contact", (data) => {
+    socket.on("remove-request-contact-sent", (data) => {
       let currentUser = {
         id: socket.request.user._id
       };
@@ -22,4 +22,4 @@ let removeRequestContact = (io) => {
   });
 };
 
-module.exports = removeRequestContact;
+module.exports = removeRequestContactSent;
