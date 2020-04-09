@@ -49,11 +49,22 @@ ContactSchema.statics = {
         {$or: [
           {"userId": userId},
           {"contactId": contactId}
-        ]},
-        { "contactId": contactId }
+        ]}
       ]
     }).exec()
   },
+
+  removeRequestContactReceived(userId, contactId) {
+    return this.remove({
+      $and: [
+        {$or: [
+          {"contactId": userId},
+          {"userId": contactId}
+        ]}
+      ]
+    }).exec()
+  },
+
   // lấy danh sách bạn bè
   getContact(userId, limit) {
     return this.find({
