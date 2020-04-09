@@ -5,7 +5,8 @@ function addContact() {
       if (data.success) {
         $("#find-user").find(`div.user-add-new-contact[data-uid=${targetId}]`).hide();
         $("#find-user").find(`div.user-remove-request-contact-sent[data-uid=${targetId}]`).css("display", "inline-block");
-
+        increaseNumberNotification("noti_contact_counter", 1);
+        
         increaseNumberNotifContact("count-request-contact-sent");
 
         // gửi khúc li html sang cho bên đang chờ xác nhận
@@ -32,7 +33,8 @@ socket.on("response-add-new-contact", function (user) {
   increaseNumberNotification("noti_counter", 1);
 
   // gửi khúc li html sang cho bên yêu cầu kết bạn
-  let userInfoHtml = `<li class="_contactList" data-uid="${user.id}">
+  let userInfoHtml = `
+<li class="_contactList" data-uid="${user.id}">
   <div class="contactPanel">
     <div class="user-avatar">
       <img src="images/users/${user.avatar}" alt="">
@@ -49,10 +51,11 @@ socket.on("response-add-new-contact", function (user) {
     <div class="user-acccept-contact-received" data-uid="${user.id}">
       Chấp nhận
     </div>
-    <div class="user-reject-request-contact-received action-danger" data-uid="${user.id}">
+    <div class="user-remove-request-contact-received action-danger" data-uid="${user.id}">
       Xóa yêu cầu
     </div>
   </div>
 </li>`;
 $("#request-contact-received").find("ul").prepend(userInfoHtml);
+removeRequestContactReceived(); //js/removeRequestContactReceived
 });
