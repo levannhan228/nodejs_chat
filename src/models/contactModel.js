@@ -46,10 +46,9 @@ ContactSchema.statics = {
   removeRequestContactSent(userId, contactId) {
     return this.remove({
       $and: [
-        {$or: [
           {"userId": userId},
-          {"contactId": contactId}
-        ]}
+          {"contactId": contactId},
+          {"status": false}
       ]
     }).exec()
   },
@@ -57,12 +56,21 @@ ContactSchema.statics = {
   removeRequestContactReceived(userId, contactId) {
     return this.remove({
       $and: [
-        {$or: [
           {"contactId": userId},
-          {"userId": contactId}
-        ]}
+          {"userId": contactId},
+          {"status": false}
       ]
     }).exec()
+  },
+
+  approveRequestContactReceived(userId, contactId) {
+    return this.update({
+      $and: [
+          {"contactId": userId},
+          {"userId": contactId},
+          {"status": false}
+      ]
+    }, {"status":true}).exec()
   },
 
   // lấy danh sách bạn bè
