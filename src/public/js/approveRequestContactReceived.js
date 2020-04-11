@@ -28,7 +28,7 @@ function approveRequestContactReceived() {
           increaseNumberNotifContact("count-contacts"); //js/caculateNotifContact.js
 
           decreaseNumberNotification("noti_contact_counter", 1);//js/caculateNotification.js
-
+          removeContact()
           socket.emit("approve-request-contact-received", { contactId: targetId });
         }
       }
@@ -80,6 +80,7 @@ socket.on("response-approve-request-received", function (user) {
     </li>
   `;
   $("#contacts").find("ul").prepend(userInfoHtml);
+  removeContact()
 });
 
 $(document).ready(function () {

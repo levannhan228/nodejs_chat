@@ -43,6 +43,16 @@ let addNew = (currentUserId, contactId) => {
   });
 }
 
+let removeContact = (currentUserId, contactId) =>{
+  return new Promise(async (resolve, reject) => {
+    let removeContact = await ContactModel.removeContact(currentUserId, contactId);
+    if (removeContact.result.n === 0) {
+      return reject(false);
+    }
+    resolve(true);
+  });
+}
+
 let removeRequestContactSent = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
     let removeReq = await ContactModel.removeRequestContactSent(currentUserId, contactId);
@@ -90,7 +100,7 @@ let approveRequestContactReceived = (currentUserId, contactId) => {
 let getContacts = (currentUserId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let contacts = await ContactModel.getContact(currentUserId, LIMIT_NUMBER_TAKEN);
+      let contacts = await ContactModel.getContacts(currentUserId, LIMIT_NUMBER_TAKEN);
       let users = contacts.map(async (contact) => {
         if (contact.contactId == currentUserId) {
           return await UserModel.getNormalUserDataById(contact.userId);
@@ -218,6 +228,7 @@ let readMoreContactsReceived = (currentUserId, skipNumberContacts) => {
 module.exports = {
   findUsersContact: findUsersContact,
   addNew: addNew,
+  removeContact: removeContact,
   removeRequestContactSent: removeRequestContactSent,
   removeRequestContactReceived: removeRequestContactReceived,
   approveRequestContactReceived: approveRequestContactReceived,

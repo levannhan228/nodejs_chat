@@ -25,10 +25,9 @@ function removeRequestContactReceived() {
 }
 
 
-socket.on("response-remove-request-received", function (user) {
+socket.on("response-remove-request-contact-received", function (user) {
   $("#find-user").find(`div.user-remove-request-contact-sent[data-uid=${user.id}]`).hide();
   $("#find-user").find(`div.user-add-new-contact[data-uid=${user.id}]`).css("display", "inline-block");
-
 
   // xóa modal tab đang chờ xác nhận
   $("#request-contact-sent").find(`li[data-uid = ${user.id}]`).remove();

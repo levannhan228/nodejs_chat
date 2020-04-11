@@ -23,7 +23,7 @@ function removeRequestContactSent() {
 }
 
 
-socket.on("response-remove-request-contact", function (user) {
+socket.on("response-remove-request-contact-sent", function (user) {
   $(".noti_content").find(`div[data-uid = ${user.id}]`).remove();//navbar
   $("ul.list-notifications").find(`li>div[data-uid = ${user.id}]`).parent().remove();
 

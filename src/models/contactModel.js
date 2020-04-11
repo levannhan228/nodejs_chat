@@ -43,12 +43,33 @@ ContactSchema.statics = {
     }).exec();
   },
 
+  removeContact(userId, contacId) {
+    return this.remove({
+      $or: [
+        {
+          $and: [
+            { "userId": userId },
+            { "contactId": contacId },
+            { "status": true }
+          ]
+        },
+        {
+          $and: [
+            { "userId": contacId },
+            { "contactId": userId },
+            { "status": true }
+          ]
+        },
+      ]
+    }).exec();
+  },
+
   removeRequestContactSent(userId, contactId) {
     return this.remove({
       $and: [
-          {"userId": userId},
-          {"contactId": contactId},
-          {"status": false}
+        { "userId": userId },
+        { "contactId": contactId },
+        { "status": false }
       ]
     }).exec()
   },
@@ -56,9 +77,9 @@ ContactSchema.statics = {
   removeRequestContactReceived(userId, contactId) {
     return this.remove({
       $and: [
-          {"contactId": userId},
-          {"userId": contactId},
-          {"status": false}
+        { "contactId": userId },
+        { "userId": contactId },
+        { "status": false }
       ]
     }).exec()
   },
@@ -66,18 +87,23 @@ ContactSchema.statics = {
   approveRequestContactReceived(userId, contactId) {
     return this.update({
       $and: [
-          {"contactId": userId},
-          {"userId": contactId},
-          {"status": false}
+        { "contactId": userId },
+        { "userId": contactId },
+        { "status": false }
       ]
-    }, {"status":true}).exec()
+    }, { "status": true }).exec()
   },
 
   // lấy danh sách bạn bè
-  getContact(userId, limit) {
+  getContacts(userId, limit) {
     return this.find({
       $and: [
-        { "userId": userId },
+        {
+          $or: [
+            { "userId": userId },
+            { "contactId": userId }
+          ]
+        },
         { "status": true }
       ]
     }).sort({ "createdAt": -1 }).limit(limit).exec();
@@ -129,16 +155,21 @@ ContactSchema.statics = {
     }).exec()
   },
   // readmore số bạn bè
-  readMoreContacts(userId, skip, limit){
+  readMoreContacts(userId, skip, limit) {
     return this.find({
       $and: [
-        { "userId": userId },
+        {
+          $or: [
+            { "userId": userId },
+            { "contactId": userId }
+          ]
+        },
         { "status": true }
       ]
     }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
   },
   // readmore danh sách chờ xác nhận bạn bè me -> you
-  readMoreContactsSent(userId, skip, limit){
+  readMoreContactsSent(userId, skip, limit) {
     return this.find({
       $and: [
         { "userId": userId },
@@ -147,7 +178,7 @@ ContactSchema.statics = {
     }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec()
   },
   // readmore danh sách chờ xác nhận bạn bè you -> me
-  readMoreContactsReceived(userId, skip, limit){
+  readMoreContactsReceived(userId, skip, limit) {
     return this.find({
       $and: [
         { "contactId": userId },
