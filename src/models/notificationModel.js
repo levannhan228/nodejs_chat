@@ -6,7 +6,7 @@ let NotificationSchema = new Schema({
   receiverId: String,
   type: String,
   isRead: { type: Boolean, default: false },
-  createAt: { type: Number, default: Date.now }
+  createdAt: { type: Number, default: Date.now }
 });
 
 NotificationSchema.statics = {
@@ -26,7 +26,7 @@ NotificationSchema.statics = {
   getByUserIdAndLimit(userId, limit) {
     return this.find({
       "receiverId": userId
-    }).sort({ "createAt": -1 }).limit(limit).exec();
+    }).sort({ "createdAt": -1 }).limit(limit).exec();
   },
 
   countNotifUnread(userId) {
@@ -41,7 +41,7 @@ NotificationSchema.statics = {
   readMore(userId, skip, limit) {
     return this.find({
       "receiverId": userId
-    }).sort({ "createAt": -1 }).skip(skip).limit(limit).exec();
+    }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
   },
 
   markAllAsRead(userId, targetUsers) {
