@@ -91,7 +91,10 @@ ContactSchema.statics = {
         { "userId": contactId },
         { "status": false }
       ]
-    }, { "status": true }).exec()
+    }, { 
+      "status": true,
+      "updatedAt":Date.now()
+    }).exec()
   },
 
   // lấy danh sách bạn bè
@@ -106,7 +109,7 @@ ContactSchema.statics = {
         },
         { "status": true }
       ]
-    }).sort({ "createdAt": -1 }).limit(limit).exec();
+    }).sort({ "updatedAt": -1 }).limit(limit).exec();
   },
   // lấy danh sách chờ xác nhận bạn bè me -> you
   getContactsSent(userId, limit) {
@@ -166,7 +169,7 @@ ContactSchema.statics = {
         },
         { "status": true }
       ]
-    }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
+    }).sort({ "updatedAt": -1 }).skip(skip).limit(limit).exec();
   },
   // readmore danh sách chờ xác nhận bạn bè me -> you
   readMoreContactsSent(userId, skip, limit) {

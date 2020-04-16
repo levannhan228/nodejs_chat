@@ -8,7 +8,6 @@ function addContact() {
         increaseNumberNotification("noti_contact_counter", 1);
         
         increaseNumberNotifContact("count-request-contact-sent");
-
         // gửi khúc li html sang cho bên đang chờ xác nhận
         let userInfoHtml = $("#find-user").find(`ul li[data-uid = ${targetId}]`).get(0).outerHTML;
         

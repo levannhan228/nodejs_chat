@@ -26,9 +26,9 @@ function approveRequestContactReceived() {
 
           decreaseNumberNotifContact("count-request-contact-received"); //js/caculateNotifContact.js
           increaseNumberNotifContact("count-contacts"); //js/caculateNotifContact.js
-
+          
           decreaseNumberNotification("noti_contact_counter", 1);//js/caculateNotification.js
-          removeContact()
+          removeContact();
           socket.emit("approve-request-contact-received", { contactId: targetId });
         }
       }

@@ -7,7 +7,7 @@ function markNotificationAsRead(targetUsers) {
       if (result) {
         targetUsers.forEach(function (uid) {
           $(".noti_content").find(`div[data-uid= ${uid}]`).removeClass("notif-readed-false");
-          $("ul.list-notifications").find(`li>div.div[data-uid= ${uid}]`).removeCl.lengthass("notif-readed-false");
+          $("ul.list-notifications").find(`li>div.div[data-uid= ${uid}]`).removeClass("notif-readed-false");
         });
         decreaseNumberNotification("noti_counter", targetUsers.length);
       }
