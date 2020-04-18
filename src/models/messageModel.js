@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 let Schema = mongoose.Schema;
 
 let MessageSchema = new Schema({
+  senderId: String,
+  receiverId: String,
+  conversationType: String,
+  messageType: String,
   sender: {
     id: String,
     username: String,
@@ -22,4 +26,40 @@ let MessageSchema = new Schema({
   deletedAt: { type: Number, default: null },
 });
 
-module.exports = mongoose.model("massage", MessageSchema);
+MessageSchema.statics = {
+  //senderId = người dùng hiện tại
+  getMessages(senderId, receiverId, limit) {
+    return this.find({
+      $or: [
+        {
+          $and: [
+            { "senderId": senderId },
+            { "receiverId": receiverId }
+          ]
+        },
+        {
+          
+          $and: [
+            { "receiverId": senderId },
+            { "senderId": receiverId }
+          ]
+        }
+      ]
+    }).sort({ "createdAt": 1 }).limit(limit).exec();
+  }
+};
+const MESSAGE_CONVERSATION_TYPES = {
+  PERSONAL: "personal",
+  GROUP: "group",
+};
+
+const MESSGAGE_TYPES = {
+  TEXT: "text",
+  IMG: "image",
+  FILE: "file"
+}
+module.exports = {
+  model: mongoose.model("massage", MessageSchema),
+  conversationTypes: MESSAGE_CONVERSATION_TYPES,
+  messagetypes: MESSGAGE_TYPES
+};

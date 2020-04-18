@@ -91,9 +91,9 @@ ContactSchema.statics = {
         { "userId": contactId },
         { "status": false }
       ]
-    }, { 
+    }, {
       "status": true,
-      "updatedAt":Date.now()
+      "updatedAt": Date.now()
     }).exec()
   },
 
@@ -134,7 +134,12 @@ ContactSchema.statics = {
   countAllContacts(userId) {
     return this.count({
       $and: [
-        { "userId": userId },
+        {
+          $or: [
+            { "userId": userId },
+            { "contactId": userId }
+          ]
+        },
         { "status": true }
       ]
     }).exec()

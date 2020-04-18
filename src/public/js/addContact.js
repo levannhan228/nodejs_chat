@@ -59,3 +59,4 @@ $("#request-contact-received").find("ul").prepend(userInfoHtml);
 removeRequestContactReceived(); //js/removeRequestContactReceived.js
 approveRequestContactReceived(); //js/approveRequestContactReceived.js
 });
+
