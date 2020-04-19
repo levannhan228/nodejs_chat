@@ -21,8 +21,8 @@ function nineScrollRight(divId) {
   $(`.right .chat[data-chat=${divId}]`).scrollTop($('.right .chat')[0].scrollHeight);
 }
 
-function enableEmojioneArea(chatId) {
-  $('.write-chat[data-chat="' + chatId + '"]').emojioneArea({
+function enableEmojioneArea(divId) {
+  $(`#write-chat-${divId}`).emojioneArea({
     standalone: false,
     pickerPosition: 'top',
     filtersPosition: 'bottom',
@@ -34,7 +34,10 @@ function enableEmojioneArea(chatId) {
     shortnames: false,
     events: {
       keyup: function (editor, event) {
-        $('.write-chat').val(this.getText());
+        $(`#write-chat-${divId}`).val(this.getText());
+      },
+      click: function(){
+        textAndEmojiChat(divId);
       }
     },
   });
@@ -81,7 +84,7 @@ function configNotification() {
 }
 
 function gridPhotos(layoutNumber) {
-  $(".show-images").unbind("click").on("click", function(){
+  $(".show-images").unbind("click").on("click", function () {
     let href = $(this).attr("href");
     let modalImagesId = href.replace("#", "");
     let countRows = Math.ceil($(`#${modalImagesId}`).find("div.all-images>img").length / layoutNumber);
@@ -160,8 +163,11 @@ function changeScreeChat() {
     $(this).find("li").addClass("active");
     $(this).tab("show");
 
-    let divID = $(this).find("li").data("chat");
-    nineScrollRight(divID);
+    let divId = $(this).find("li").data("chat");
+    nineScrollRight(divId);
+
+    // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
+    enableEmojioneArea(divId);
   });
 }
 
@@ -174,9 +180,6 @@ $(document).ready(function () {
 
   // Cấu hình thanh cuộn
   nineScrollLeft();
-
-  // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
-  enableEmojioneArea("17071995");
 
   // Icon loading khi chạy ajax
   ajaxLoading();

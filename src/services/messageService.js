@@ -32,9 +32,14 @@ let getAllConversationItems = (currentUserId) => {
 
       // lấy tin nhắn đẩy vào màn hình
       let allConversationsWithMessagePromise = allConversations.map(async (converations) => {
-        let getMessages = await MessageModel.model.getMessages(currentUserId, converations._id, LIMIT_MESSAGES_TAKEN);
         converations = converations.toObject();
-        converations.messages = getMessages;
+        if(converations.members){
+          let getMessages = await MessageModel.model.getMessagesInGroup(converations._id, LIMIT_MESSAGES_TAKEN);
+          converations.messages = getMessages;
+        }else{
+          let getMessages = await MessageModel.model.getMessagesInPersonal(currentUserId, converations._id, LIMIT_MESSAGES_TAKEN);
+          converations.messages = getMessages;
+        }
         return converations;
       });
 
