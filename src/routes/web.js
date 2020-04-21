@@ -1,6 +1,6 @@
 import express from 'express';
-import { home, auth, user, contact, notification } from './../controllers/index';
-import { authValid, userValid, contactValid } from './../validation/index';
+import { home, auth, user, contact, notification, message } from './../controllers/index';
+import { authValid, userValid, contactValid, messageValid } from './../validation/index';
 import initPassportLocal from './../controllers/passportController/local';
 import initPassportFacebook from './../controllers/passportController/facebook';
 import initPassportGoogle from './../controllers/passportController/google';
@@ -53,6 +53,7 @@ let initRouters = (app) => {
   router.get("/notification/read-more", auth.checkLoggedIn, notification.readMore );
   router.put("/notification/mark-all-ad-read", auth.checkLoggedIn, notification.markAllAsRead );
 
+  router.post("/message/add-new-text-emoji", auth.checkLoggedIn, messageValid.checkMessageLength, message.addnewTextEmoji);
   return app.use("/", router);
 };
 

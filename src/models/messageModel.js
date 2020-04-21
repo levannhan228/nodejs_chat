@@ -27,6 +27,10 @@ let MessageSchema = new Schema({
 });
 
 MessageSchema.statics = {
+  
+  createNew(item) {
+    return this.create(item);
+  },
   //senderId = người dùng hiện tại
   getMessagesInPersonal(senderId, receiverId, limit) {
     return this.find({

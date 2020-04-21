@@ -14,7 +14,7 @@ ContactSchema.statics = {
   createNew(item) {
     return this.create(item);
   },
-
+  // tìm kiếm tất cẩ người dùng
   findAllByUser(userId) {
     return this.find({
       $or: [
@@ -23,7 +23,7 @@ ContactSchema.statics = {
       ]
     }).exec();
   },
-
+  // kiểm tra người dùng tồn tại
   checkExists(userId, contacId) {
     return this.findOne({
       $or: [
@@ -42,7 +42,7 @@ ContactSchema.statics = {
       ]
     }).exec();
   },
-
+  // xóa liên hệ
   removeContact(userId, contacId) {
     return this.remove({
       $or: [
@@ -63,7 +63,7 @@ ContactSchema.statics = {
       ]
     }).exec();
   },
-
+  // hủy yêu cầu kết bạn đã gửi
   removeRequestContactSent(userId, contactId) {
     return this.remove({
       $and: [
@@ -73,7 +73,7 @@ ContactSchema.statics = {
       ]
     }).exec()
   },
-
+  // hủy yêu cầu kết bạn được gửi đến
   removeRequestContactReceived(userId, contactId) {
     return this.remove({
       $and: [
@@ -83,7 +83,7 @@ ContactSchema.statics = {
       ]
     }).exec()
   },
-
+  // chấp nhận lời mời kết bạn
   approveRequestContactReceived(userId, contactId) {
     return this.update({
       $and: [
@@ -96,7 +96,6 @@ ContactSchema.statics = {
       "updatedAt": Date.now()
     }).exec()
   },
-
   // lấy danh sách bạn bè
   getContacts(userId, limit) {
     return this.find({
@@ -129,7 +128,6 @@ ContactSchema.statics = {
       ]
     }).sort({ "createdAt": -1 }).limit(limit).exec();
   },
-
   // đếm số bạn bè
   countAllContacts(userId) {
     return this.count({
@@ -194,5 +192,26 @@ ContactSchema.statics = {
       ]
     }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
   },
+  // cập nhật message
+  updateWhenHasNewMessage(userId,contacId){
+    return this.update({
+      $or: [
+        {
+          $and: [
+            { "userId": userId },
+            { "contactId": contacId }
+          ]
+        },
+        {
+          $and: [
+            { "userId": contacId },
+            { "contactId": userId }
+          ]
+        },
+      ]
+    },{
+      "updatedAt": Date.now()
+    }).exec();
+  }
 };
 module.exports = mongoose.model("contact", ContactSchema);
