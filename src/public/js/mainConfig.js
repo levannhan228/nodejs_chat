@@ -159,13 +159,15 @@ function changeTypeChat() {
   })
 }
 
-function changeScreeChat() {
+function changeScreenChat() {
   $(".room-chat").unbind("click").on("click", function () {
+    
+    let divId = $(this).find("li").data("chat");
+
     $(".person").removeClass("active");
-    $(this).find("li").addClass("active");
+    $(`.person[data-chat=${divId}]`).addClass("active");
     $(this).tab("show");
 
-    let divId = $(this).find("li").data("chat");
     nineScrollRight(divId);
 
     // Bật emoji, tham số truyền vào là id của box nhập nội dung tin nhắn
@@ -173,6 +175,13 @@ function changeScreeChat() {
   });
 }
 
+function useEmoji(){
+    $(".convert-emoji").each(function(){
+      var original = $(this).html();
+      var converted = emojione.toImage(original);
+      $(this).html(converted);
+    });
+}
 $(document).ready(function () {
   // Hide số thông báo trên đầu icon mở modal contact
   showModalContacts();
@@ -199,8 +208,10 @@ $(document).ready(function () {
   flashMasterNotify();
   // Chuyển kiểu trò chuyện
   changeTypeChat();
-  //chuyển đoạn hội thoại sang người khác
-  changeScreeChat();
+  // Chuyển đoạn hội thoại sang người khác
+  changeScreenChat();
+  // Dùng thư viện conver icon dạng unicode -> img
+  useEmoji()
   //chọn thành viên chat đầu tiên lúc mới vào
   $("ul.people").find("a")[0].click();
 });

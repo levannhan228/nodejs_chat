@@ -192,7 +192,7 @@ ContactSchema.statics = {
       ]
     }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
   },
-  // cập nhật message
+  // cập nhật thời gian cho message để sắp xếp bên thứ tự contact
   updateWhenHasNewMessage(userId,contacId){
     return this.update({
       $or: [

@@ -452,7 +452,7 @@ label:focus,
 .avatar-small {
   width: 24px;
   height: 24px;
-  border-radius: 16px 16px 0 16px;
+  border-radius: 16px 16px 16px 16px;
 }
 
 .active {
@@ -1053,7 +1053,7 @@ label:focus,
 .right .bubble.me {
   float: right;
   color: #1a1a1a;
-  background-color: #eceff1;
+  background-color: #F2F3F5;
   -ms-flex-item-align: end;
   align-self: flex-end;
   -webkit-animation-name: slideFromRight;
@@ -1573,4 +1573,9 @@ label:focus,
 #screen-chat{
   width: 100%;
   height: 100%;
+}
+
+.show-number-members, 
+.show-number-messages{
+  color: black !important;
 }

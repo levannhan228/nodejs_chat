@@ -37,10 +37,10 @@ let getAllConversationItems = (currentUserId) => {
         converations = converations.toObject();
         if(converations.members){
           let getMessages = await MessageModel.model.getMessagesInGroup(converations._id, LIMIT_MESSAGES_TAKEN);
-          converations.messages = getMessages;
+          converations.messages = _.reverse(getMessages);
         }else{
           let getMessages = await MessageModel.model.getMessagesInPersonal(currentUserId, converations._id, LIMIT_MESSAGES_TAKEN);
-          converations.messages = getMessages;
+          converations.messages = _.reverse(getMessages);
         }
         return converations;
       });
