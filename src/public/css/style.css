@@ -1579,3 +1579,8 @@ label:focus,
 .show-number-messages{
   color: black !important;
 }
+
+.new-message-css{
+  color: red !important;
+  font-weight: bold;
+}
