@@ -54,6 +54,13 @@ function textAndEmojiChat(divId) {
         $(`.person[data-chat=${divId}]`).trigger("tensukien.namespace_nhan");
         // gửi sự kiện lên sever để xử lí realtime
         socket.emit("chat-text-emoji", dataToEmit);
+        // typingOff
+        typingOff(dicId);
+        // trường hợp hơi đặc biệt (ít khi xảy ra)
+        let checkTyping = $(`.chat[data-chat=${response.currentUserId}]`).find("div.bubble-typing-gif");
+        if (checkTyping.length) {
+          checkTyping.remove()
+        }
       }).fail(function (response) {
         alertify.notify(response.responseText, "error", 5)
       });
@@ -74,15 +81,15 @@ $(document).ready(function () {
       messageOfYou.html(`${senderavatar} ${converEmojiMessage}`)
       divId = response.currentGroupId;
 
-      if(response.currentUserId !== $("#dropdown-navbar-user").data("uid")){
-      increaseMassageInGroup(divId);
+      if (response.currentUserId !== $("#dropdown-navbar-user").data("uid")) {
+        increaseMassageInGroup(divId);
       }
     } else {
       messageOfYou.html(converEmojiMessage);
       divId = response.currentUserId;
     }
     // đẩy ra màn hình
-    if(response.currentUserId !== $("#dropdown-navbar-user").data("uid")){
+    if (response.currentUserId !== $("#dropdown-navbar-user").data("uid")) {
       $(`.right .chat[data-chat=${divId}]`).append(messageOfYou);
       nineScrollRight(divId);
       $(`.person[data-chat=${divId}]`).find("span.time").addClass("new-message-css")
@@ -90,7 +97,7 @@ $(document).ready(function () {
     // thay đổi tin nhắn cuối và thời gian cập nhật bên danh sách left
     $(`.person[data-chat=${divId}]`).find("span.time").html(moment(response.message.createdAt).locale("vi").startOf("seconds").fromNow());
     $(`.person[data-chat=${divId}]`).find("span.preview").html(emojione.toImage(response.message.text));
-     // đẩy lên trên cùng đối với tin nhắn mới nhất lại bên left 
+    // đẩy lên trên cùng đối với tin nhắn mới nhất lại bên left 
     $(`.person[data-chat=${divId}]`).on("tensukien.namespace_nhan", function () {
       let dataToMove = $(this).parent();
       $(this).closest("ul").prepend(dataToMove);

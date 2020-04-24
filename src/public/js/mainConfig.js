@@ -40,6 +40,12 @@ function enableEmojioneArea(divId) {
       click: function(){
         // xử lí DOM cho chat văn bản + icon
         textAndEmojiChat(divId);
+        // xử lí "có người đang chat"
+        typingOn(divId);
+      },
+      blur: function(){
+        // xóa .... ai đó đang chat
+        typingOff(divId);
       }
     },
   });
@@ -191,7 +197,7 @@ $(document).ready(function () {
 
   // Cấu hình thanh cuộn
   nineScrollLeft();
-
+  nineScrollRight();
   // Icon loading khi chạy ajax
   ajaxLoading();
 
