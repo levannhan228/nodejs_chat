@@ -22,7 +22,9 @@ export const transErrors = {
   avatar_type: "Định dạng không phù hợp, vui lòng chọn file jpg & png.",
   avatar_size: "Kích thước ảnh không phù hợp phải < 1MB",
   user_current_password_failed: "Kiểm tra lại mật khẩu hiện tại",
-  conversation_not_found: "Cuộc trò chuyện không tồn tại"
+  conversation_not_found: "Cuộc trò chuyện không tồn tại",
+  image_message_type: "Định dạng không phù hợp, vui lòng chọn file jpg & png.",
+  image_message_size: "Kích thước ảnh không phù hợp phải < 1MB",
 };
 
 export const transSuccess = {

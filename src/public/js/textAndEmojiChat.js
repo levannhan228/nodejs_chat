@@ -55,9 +55,9 @@ function textAndEmojiChat(divId) {
         // gửi sự kiện lên sever để xử lí realtime
         socket.emit("chat-text-emoji", dataToEmit);
         // typingOff
-        typingOff(dicId);
+        typingOff(divId);
         // trường hợp hơi đặc biệt (ít khi xảy ra)
-        let checkTyping = $(`.chat[data-chat=${response.currentUserId}]`).find("div.bubble-typing-gif");
+        let checkTyping = $(`.chat[data-chat=${divId}]`).find("div.bubble-typing-gif");
         if (checkTyping.length) {
           checkTyping.remove()
         }
