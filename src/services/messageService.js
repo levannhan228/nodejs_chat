@@ -189,8 +189,78 @@ let addNewImage = (sender, receivedId, messageVal, isChatGroup) =>{
     }
   });
 };
+
+let addNewAttachment = (sender, receivedId, messageVal, isChatGroup) =>{
+  return new Promise(async(resolve,reject)=>{
+    try {
+      if(isChatGroup){
+        let getChatGroupReceived = await ChatGroupModel.getChatGroupById(receivedId);
+        if(!getChatGroupReceived){
+          return reject(transErrors.conversation_not_found);
+        }
+        let recived = {
+          id: getChatGroupReceived._id,
+          name: getChatGroupReceived.name,
+          avatar: app.general_avatar_group_chat
+        };
+
+        let attachmentBuffer = await fsExtra.readFile(messageVal.path);
+        let attachmentContentType = messageVal.mimetype;
+        let attachmentName = messageVal.originalname;
+
+        let newMessageItem ={
+          senderId: sender.id,
+          receiverId: recived.id,
+          conversationType: MessageModel.conversationTypes.GROUP,
+          messageType: MessageModel.messagetypes.FILE,
+          sender: sender,
+          receiver: recived,
+          file: { data: attachmentBuffer, contentType: attachmentContentType, fileName: attachmentName },
+          createdAt: Date.now()
+        };
+        //create new mess 
+        let newMessage = await MessageModel.model.createNew(newMessageItem);
+        // update group
+        await ChatGroupModel.updateWhenHasNewMessage(getChatGroupReceived._id,getChatGroupReceived.messageAmount + 1);
+        resolve(newMessage);
+      }else{
+        let getUserReceived = await UserModel.getNormalUserDataById(receivedId);
+        if(!getUserReceived){
+          return reject(transErrors.conversation_not_found);
+        }
+        let recived = {
+          id: getUserReceived._id,
+          name: getUserReceived.username,
+          avatar: getUserReceived.avatar
+        }; 
+        let attachmentBuffer = await fsExtra.readFile(messageVal.path);
+        let attachmentContentType = messageVal.mimetype;
+        let attachmentName = messageVal.originalname;
+
+        let newMessageItem ={
+          senderId: sender.id,
+          receiverId: recived.id,
+          conversationType: MessageModel.conversationTypes.PERSONAL,
+          messageType: MessageModel.messagetypes.FILE,
+          sender: sender,
+          receiver: recived,
+          file: { data: attachmentBuffer, contentType: attachmentContentType, fileName: attachmentName },
+          createdAt: Date.now()
+        };
+        //create new mess
+        let newMessage = await MessageModel.model.createNew(newMessageItem);
+        // update contact
+        await ContactModel.updateWhenHasNewMessage(sender.id, getUserReceived._id);
+        resolve(newMessage);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 module.exports = {
   getAllConversationItems: getAllConversationItems,
   addnewTextEmoji: addnewTextEmoji,
   addNewImage: addNewImage,
+  addNewAttachment: addNewAttachment
 };
