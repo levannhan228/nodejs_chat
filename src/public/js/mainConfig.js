@@ -189,6 +189,8 @@ function changeScreenChat() {
     imageChat(divId)
     // DOM tin nhắn tệp đính kèm
     attachmentChat(divId)
+    // video chat
+    videoChat(divId)
   });
 }
 
@@ -234,4 +236,8 @@ $(document).ready(function () {
   useEmoji()
   //chọn thành viên chat đầu tiên lúc mới vào
   $("ul.people").find("a")[0].click();
+
+  $("#video-chat-group").bind("click",function(){
+    alertify.notify("Tính năng này không áp dụng với nhóm trò chuyện","error",5)
+  });
 });

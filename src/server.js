@@ -12,7 +12,8 @@ import socketio from "socket.io";
 import initSockets from './sockets/index';
 import cookieParser from 'cookie-parser';
 import configSocketIo from './config/socketio';
-
+import events from 'events';
+import * as configApp from './config/app'
 import pem from 'pem';
 import https from 'https';
 
@@ -56,7 +57,8 @@ import https from 'https';
 
 //Create app
 let app = express();
-
+// tăng giới hạn lắng nghe của event 11 là nó báo lỗi nên tăng lên
+events.EventEmitter.defaultMaxListeners = configApp.app.max_event;
 // kết hợp socket.io và express
 let server = http.createServer(app);
 let io = socketio(server);

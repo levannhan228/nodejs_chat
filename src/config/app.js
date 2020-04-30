@@ -8,4 +8,5 @@ export const app = {
   image_message_limit_size: 1048576,
   attachment_message_directory: "src/public/images/chat/message",
   attachment_message_limit_size: 1048576,
+  max_event: 20
 }

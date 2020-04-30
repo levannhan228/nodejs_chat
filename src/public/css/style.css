@@ -1018,12 +1018,12 @@ label:focus,
   margin-bottom: 4px;
   padding: 13px 14px;
   vertical-align: top;
-  border-radius: 5px;
+  border-radius: 25px;
 }
 
 .right .bubble:before {
   position: absolute;
-  top: 19px;
+  top: 25px;
   display: block;
   width: 8px;
   height: 6px;
@@ -1043,7 +1043,7 @@ label:focus,
 }
 
 .right .bubble.you:before {
-  left: -3px;
+  left: -4px;
   background-color: #2ECC71;
 }
 
@@ -1058,8 +1058,8 @@ label:focus,
 }
 
 .right .bubble.me:before {
-  right: -3px;
-  background-color: #eceff1;
+  right: -4px;
+  background-color: #F2F3F5;
 }
 
 .right .bubble.me img {
@@ -1580,4 +1580,8 @@ label:focus,
 .new-message-css{
   color: red !important;
   font-weight: bold;
+}
+
+.mgt-30{
+  margin-top: 30px;
 }

@@ -345,6 +345,7 @@ hr {
   padding: 12px 40px;
   text-transform: uppercase;
   transition: all 0.3s ease 0s;
+  margin-right: 5px;
 }
 
 .big-login:hover {
