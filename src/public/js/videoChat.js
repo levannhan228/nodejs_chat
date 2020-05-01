@@ -31,12 +31,17 @@ $(document).ready(function () {
     alertify.notify("Không thực hiện được cuộc gọi, người dừng không trực tuyến", "error", 5)
   });
 
+  let iceServerList = $("#ice-server-list").val();
+  // console.log(JSON.parse(iceServerList));
+  // console.log(JSON.parse(typeof iceServerList));
+
   let getPeerId = "";
   const peer = new Peer({
     key: "peerjs",
     host: "peerjs-server-trungquandev.herokuapp.com",
     secure: true,
     port: 443,
+    config: { "iceServers": JSON.parse(iceServerList) }
     // debug: 3
   });
 
@@ -209,11 +214,11 @@ $(document).ready(function () {
         });
       });
     }, function (err) {
-      if(err.toString()==="NotAllowedError: Permission denied"){
-        alertify.notify("Bạn cần cấp quyền truy cập thiết bị nghe gọi trên trình duyệt của bạn","error",7)
+      if (err.toString() === "NotAllowedError: Permission denied") {
+        alertify.notify("Bạn cần cấp quyền truy cập thiết bị nghe gọi trên trình duyệt của bạn", "error", 7)
       }
-      if(err.toString()==="NotFoundError: Requested device noy found"){
-        alertify.notify("Không tìm thấy thiết bị nghe gọi trên trình duyệt của bạn","error",7)
+      if (err.toString() === "NotFoundError: Requested device noy found") {
+        alertify.notify("Không tìm thấy thiết bị nghe gọi trên trình duyệt của bạn", "error", 7)
       }
     });
   });
@@ -253,11 +258,11 @@ $(document).ready(function () {
           });
         });
       }, function (err) {
-        if(err.toString()==="NotAllowedError: Permission denied"){
-          alertify.notify("Bạn cần cấp quyền truy cập thiết bị nghe gọi trên trình duyệt của bạn","error",7)
+        if (err.toString() === "NotAllowedError: Permission denied") {
+          alertify.notify("Bạn cần cấp quyền truy cập thiết bị nghe gọi trên trình duyệt của bạn", "error", 7)
         }
-        if(err.toString()==="NotFoundError: Requested device noy found"){
-          alertify.notify("Không tìm thấy thiết bị nghe gọi trên trình duyệt của bạn","error",7)
+        if (err.toString() === "NotFoundError: Requested device noy found") {
+          alertify.notify("Không tìm thấy thiết bị nghe gọi trên trình duyệt của bạn", "error", 7)
         }
       });
     });
