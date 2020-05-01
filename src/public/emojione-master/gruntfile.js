@@ -9,7 +9,7 @@ module.exports = function(grunt) {
                 src: ['emoji.json','emoji_strategy.json']
             }
         },
-        // BUILD EMOJI ONE AWESOME CSS (SASS -> CSS)
+        // BUILD EMOJI ONE CHAT NODEJS CSS (SASS -> CSS)
         sass: {
             dist: {
                 files: {

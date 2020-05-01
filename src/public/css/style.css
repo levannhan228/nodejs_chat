@@ -1018,7 +1018,7 @@ label:focus,
   margin-bottom: 4px;
   padding: 13px 14px;
   vertical-align: top;
-  border-radius: 25px;
+  border-radius: 10px;
 }
 
 .right .bubble:before {
@@ -1035,7 +1035,7 @@ label:focus,
 .right .bubble.you {
   float: left;
   color: #fff;
-  background-color: #2ECC71;
+  background-color: #86BB71;
   -ms-flex-item-align: start;
   align-self: flex-start;
   -webkit-animation-name: slideFromLeft;
@@ -1044,13 +1044,13 @@ label:focus,
 
 .right .bubble.you:before {
   left: -4px;
-  background-color: #2ECC71;
+  background-color: #86BB71;
 }
 
 .right .bubble.me {
   float: right;
   color: #1a1a1a;
-  background-color: #F2F3F5;
+  background-color:#aaccec;
   -ms-flex-item-align: end;
   align-self: flex-end;
   -webkit-animation-name: slideFromRight;
@@ -1059,7 +1059,7 @@ label:focus,
 
 .right .bubble.me:before {
   right: -4px;
-  background-color: #F2F3F5;
+  background-color:#aaccec;
 }
 
 .right .bubble.me img {

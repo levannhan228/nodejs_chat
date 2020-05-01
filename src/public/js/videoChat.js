@@ -12,6 +12,19 @@ function videoChat(divId) {
   });
 }
 
+function playVideoStream(videoTagId, stream) {
+  let video = document.getElementById(videoTagId);
+  video.srcObject = stream;
+  video.onloadeddata = function () {
+    video.play();
+  };
+}
+
+function closeVideoSrtream(stream) {
+  // getTracks() phương pháp của MediaStreamgiao diện trả về một chuỗi đại diện
+  return stream.getTracks().forEach(track => track.stop());
+}
+
 $(document).ready(function () {
   // req 2: nếu user2 không online sever bắn thông báo về cho user1
   socket.on("sever-send-listener-is-offline", function () {
@@ -19,8 +32,14 @@ $(document).ready(function () {
   });
 
   let getPeerId = "";
-  const peer = new Peer();
-  // console.log(peer)
+  const peer = new Peer({
+    key: "peerjs",
+    host: "peerjs-server-trungquandev.herokuapp.com",
+    secure: true,
+    port: 443,
+    // debug: 3
+  });
+
   peer.on("open", function (peerId) {
     getPeerId = peerId;
   })
@@ -37,6 +56,8 @@ $(document).ready(function () {
     // req 4: user2 gửi data và peerid về sever 
     socket.emit("listener-emit-peer-id-to-server", dataToEmit);
   });
+
+  let timeInterval;
   // req 5: sever gửi peerid của user2 cho user1
   socket.on("server-send-peer-id-of-listener-to-caller", function (response) {
     let dataToEmit = {
@@ -48,8 +69,6 @@ $(document).ready(function () {
     };
     // req 6: user1 gọi đến server
     socket.emit("caller-request-call-to-server", dataToEmit);
-
-    let timeInterval;
     Swal.fire({
       title: `Đang gọi cho &nbsp; <span style="color: #3498DB">${response.listenerName}</span> &nbsp; <i class="fa fa-volume-control-phone"></i>`,
       html: `Thời gian: <strong  style="color: #3498DB"></strong> giây <br/> <br/>
@@ -67,10 +86,12 @@ $(document).ready(function () {
           // req 7 : có thể hủy nếu yêu cầu gọi nếu user2 chưa chấp nhận cuộc gọi
           socket.emit("caller-cancel-request-call-to-sever", dataToEmit);
         });
-        Swal.showLoading();
-        timeInterval = setInterval(() => {
-          Swal.getContent().querySelector("strong").textContent = Math.ceil(Swal.getTimerLeft() / 1000);
-        }, 1000)
+        if (Swal.getContent().querySelector !== null) {
+          Swal.showLoading();
+          timeInterval = setInterval(() => {
+            Swal.getContent().querySelector("strong").textContent = Math.ceil(Swal.getTimerLeft() / 1000);
+          }, 1000)
+        }
       },
       onOpen: () => {
         //req 12: sever bắn req về user 1 rằng user2 từ chối chat video
@@ -86,12 +107,6 @@ $(document).ready(function () {
             confirmButtonColor: "#2ECC71",
             confirmButtonText: "Xác nhận",
           });
-        });
-        // req 13: sever gửi req về cả hai phía user1 và user2 (đây là bắn từ sever về user1)
-        socket.on("server-send-accept-call-to-caller", function (response) {
-          Swal.close();
-          clearInterval(timeInterval);
-          console.log("goi thanh cong");
         });
       },
       onClose: () => {
@@ -110,7 +125,6 @@ $(document).ready(function () {
       listenerName: response.listenerName,
       listenerPeerId: response.listenerPeerId
     };
-    let timeInterval;
     Swal.fire({
       title: `Cuộc gọi đến từ &nbsp <span style="color: #3498DB">${response.callerName}</span> &nbsp; <i class="fa fa-volume-control-phone"></i>`,
       html: `Thời gian: <strong  style="color: #3498DB"></strong> giây <br/> <br/>
@@ -141,22 +155,18 @@ $(document).ready(function () {
           //req 11: user2 chấp nhận cuộc gọi bắn req về sever
           socket.emit("listener-accept-request-call-to-server", dataToEmit)
         });
-        Swal.showLoading();
-        timeInterval = setInterval(() => {
-          Swal.getContent().querySelector("strong").textContent = Math.ceil(Swal.getTimerLeft() / 1000);
-        }, 1000)
+        if (Swal.getContent().querySelector !== null) {
+          Swal.showLoading();
+          timeInterval = setInterval(() => {
+            Swal.getContent().querySelector("strong").textContent = Math.ceil(Swal.getTimerLeft() / 1000);
+          }, 1000)
+        }
       },
       onOpen: () => {
         //req 9: sau khi thực hiện req7 (hủy cuộ gọi từ user1) sever thực hiện hủy cuộc gọi đến user2
         socket.on("server-send-cancel-request-call-to-listener", function (response) {
           Swal.close();
           clearInterval(timeInterval);
-        });
-        // req 14: sever gửi req về cả hai phía user1 và user2 (đây là bắn từ sever về user2)
-        socket.on("server-send-accept-call-to-listener", function (response) {
-          Swal.close();
-          clearInterval(timeInterval);
-          console.log("nghe thanh cong");
         });
       },
       onClose: () => {
@@ -167,4 +177,89 @@ $(document).ready(function () {
     });
   });
 
+  // req 13: sever gửi req về cả hai phía user1 và user2 (đây là bắn từ sever về user1)
+  socket.on("server-send-accept-call-to-caller", function (response) {
+    Swal.close();
+    clearInterval(timeInterval);
+    // lấy từ trang chủ peerjs
+    let getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia).bind(navigator);
+    getUserMedia({ video: true, audio: true }, function (stream) {
+      // bật modal callvideo
+      $("#streamModal").modal("show");
+      // hiển thi stream user1 (màn hình nhỏ)
+      playVideoStream("local-stream", stream);
+      // gọi đến user2
+      let call = peer.call(response.listenerPeerId, stream);
+      // chờ user2 chấp nhận cuộc gọi
+      call.on("stream", function (remoteStream) {
+        // hiển thi stream user2 (màn hình lớn)
+        playVideoStream("remote-stream", remoteStream);
+      });
+      // Đóng modal và luồng stream
+      $("#streamModal").on("hidden.bs.modal", function () {
+        closeVideoSrtream(stream);
+        Swal.fire({
+          type: "info",
+          title: `Đã kết thúc cuộc trò chuyện với &nbsp; <span style="color: #3498DB">${response.listenerName}</span>`,
+          backdrop: "rgba(85,85,85,0.4)",
+          width: "52rem",
+          allowOutsideClick: false,
+          confirmButtonColor: "#2ECC71",
+          confirmButtonText: "Xác nhận",
+        });
+      });
+    }, function (err) {
+      if(err.toString()==="NotAllowedError: Permission denied"){
+        alertify.notify("Bạn cần cấp quyền truy cập thiết bị nghe gọi trên trình duyệt của bạn","error",7)
+      }
+      if(err.toString()==="NotFoundError: Requested device noy found"){
+        alertify.notify("Không tìm thấy thiết bị nghe gọi trên trình duyệt của bạn","error",7)
+      }
+    });
+  });
+
+  // req 14: sever gửi req về cả hai phía user1 và user2 (đây là bắn từ sever về user2)
+  socket.on("server-send-accept-call-to-listener", function (response) {
+    Swal.close();
+    clearInterval(timeInterval);
+    // lấy từ trang chủ peerjs
+    let getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia).bind(navigator);
+
+    peer.on("call", function (call) {
+      getUserMedia({ video: true, audio: true }, function (stream) {
+        // bật modal callvideo
+        $("#streamModal").modal("show");
+        // hiển thi stream user2 (màn hình nhỏ)
+        playVideoStream("local-stream", stream);
+
+        call.answer(stream); // Answer the call with an A/V stream.
+
+        call.on("stream", function (remoteStream) {
+          // hiển thi stream user1 (màn hình lớn)
+          playVideoStream("remote-stream", remoteStream);
+        });
+
+        // Đóng modal và luồng stream
+        $("#streamModal").on("hidden.bs.modal", function () {
+          closeVideoSrtream(stream);
+          Swal.fire({
+            type: "info",
+            title: `Đã kết thúc cuộc trò chuyện với &nbsp; <span style="color: #3498DB">${response.callerName}</span>`,
+            backdrop: "rgba(85,85,85,0.4)",
+            width: "52rem",
+            allowOutsideClick: false,
+            confirmButtonColor: "#2ECC71",
+            confirmButtonText: "Xác nhận",
+          });
+        });
+      }, function (err) {
+        if(err.toString()==="NotAllowedError: Permission denied"){
+          alertify.notify("Bạn cần cấp quyền truy cập thiết bị nghe gọi trên trình duyệt của bạn","error",7)
+        }
+        if(err.toString()==="NotFoundError: Requested device noy found"){
+          alertify.notify("Không tìm thấy thiết bị nghe gọi trên trình duyệt của bạn","error",7)
+        }
+      });
+    });
+  });
 });
