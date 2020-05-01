@@ -9,6 +9,7 @@ import typingOff from './chat/typingOff';
 import chatImage from './chat/chatImage';
 import chatAttachment from './chat/chatAttachment';
 import chatVideo from './chat/chatVideo';
+import userOnlineOrOff from './status/userOnlineOrOff';
 
 let initSockets = (io) =>{
   addNewContact(io);
@@ -22,6 +23,7 @@ let initSockets = (io) =>{
   chatImage(io);
   chatAttachment(io);
   chatVideo(io);
+  userOnlineOrOff(io);
 }
 
 module.exports = initSockets;
