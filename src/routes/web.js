@@ -40,6 +40,7 @@ let initRouters = (app) => {
   router.put("/user/update-avatar", auth.checkLoggedIn, user.updateAvatar);
   router.put("/user/update-info", auth.checkLoggedIn, userValid.updateInfo, user.updateInfo);
   router.put("/user/update-password", auth.checkLoggedIn, userValid.updatePassword, user.updatePassword);
+
   router.get("/contact/find-users/:keyword", auth.checkLoggedIn, contactValid.findUsersContact ,contact.findUsersContact);
   router.post("/contact/add-new", auth.checkLoggedIn, contact.addNew);
   router.delete("/contact/remove-contact", auth.checkLoggedIn, contact.removeContact);
@@ -49,7 +50,8 @@ let initRouters = (app) => {
   router.get("/contact/read-more-contacts", auth.checkLoggedIn, contact.readMoreContacts);
   router.get("/contact/read-more-contacts-sent", auth.checkLoggedIn, contact.readMoreContactsSent);
   router.get("/contact/read-more-contacts-received", auth.checkLoggedIn, contact.readMoreContactsReceived);
-
+  router.get("/contact/search-friends/:keyword", auth.checkLoggedIn, contactValid.searchFriends ,contact.searchFriends);
+  
   router.get("/notification/read-more", auth.checkLoggedIn, notification.readMore );
   router.put("/notification/mark-all-ad-read", auth.checkLoggedIn, notification.markAllAsRead );
 

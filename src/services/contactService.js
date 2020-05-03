@@ -18,7 +18,7 @@ let findUsersContact = (currentUserId, keyword) => {
     let users = await UserModel.findAllForAllContact(deprecatedUserIds, keyword);
     resolve(users);
   });
-}
+};
 
 let addNew = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
@@ -43,7 +43,7 @@ let addNew = (currentUserId, contactId) => {
   });
 }
 
-let removeContact = (currentUserId, contactId) =>{
+let removeContact = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
     let removeContact = await ContactModel.removeContact(currentUserId, contactId);
     if (removeContact.result.n === 0) {
@@ -225,6 +225,23 @@ let readMoreContactsReceived = (currentUserId, skipNumberContacts) => {
   });
 };
 
+let searchFriends = (currentUserId, keyword) => {
+  return new Promise(async (resolve, reject) => {
+    let friendIds = [];
+    let friends = await ContactModel.getFriends(currentUserId);
+
+    friends.forEach((item) => {
+      friendIds.push(item.userId);
+      friendIds.push(item.contactId);
+    });
+
+    friendIds = _.uniqBy(friendIds); // lọc friend bị trùng lặp 
+    friendIds = friendIds.filter(userId => userId != currentUserId); // 1string 1 object nen !=
+
+    let users = await UserModel.findAllToAddGroupChat(friendIds, keyword);
+    resolve(users);
+  });
+};
 module.exports = {
   findUsersContact: findUsersContact,
   addNew: addNew,
@@ -240,5 +257,6 @@ module.exports = {
   countAllContactsReceived: countAllContactsReceived,
   readMoreContacts: readMoreContacts,
   readMoreContactsSent: readMoreContactsSent,
-  readMoreContactsReceived: readMoreContactsReceived
+  readMoreContactsReceived: readMoreContactsReceived,
+  searchFriends: searchFriends
 }

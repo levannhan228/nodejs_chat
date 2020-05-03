@@ -193,7 +193,7 @@ ContactSchema.statics = {
     }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
   },
   // cập nhật thời gian cho message để sắp xếp bên thứ tự contact
-  updateWhenHasNewMessage(userId,contacId){
+  updateWhenHasNewMessage(userId, contacId) {
     return this.update({
       $or: [
         {
@@ -209,9 +209,23 @@ ContactSchema.statics = {
           ]
         },
       ]
-    },{
+    }, {
       "updatedAt": Date.now()
     }).exec();
-  }
+  },
+  // lấy danh sách bạn bè (vẫn như trên nhưng bỏ limit cho đỡ rối)
+  getFriends(userId) {
+    return this.find({
+      $and: [
+        {
+          $or: [
+            { "userId": userId },
+            { "contactId": userId }
+          ]
+        },
+        { "status": true }
+      ]
+    }).sort({ "updatedAt": -1 }).exec();
+  },
 };
 module.exports = mongoose.model("contact", ContactSchema);
