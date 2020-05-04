@@ -9,6 +9,8 @@ export const transValidation = {
   update_phone: "Số điện thoại không đúng",
   keyword_find_user: "Tìm kiếm không được phép chứa kí tự đặc biệt",
   message_text_emoji_incorrect:"Tin nhắn không hợp lệ",
+  add_new_group_users_incorrect:"Một nhóm trò chuyện cần phải có tối thiểu 2 người trở lên",
+  add_new_group_name_incorrect:"Tên nhóm giới hạn từ 2-40 ký tự và không chứa các kí tự đặc biệt",
 };
 
 export const transErrors = {
