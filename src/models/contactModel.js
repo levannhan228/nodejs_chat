@@ -14,14 +14,19 @@ ContactSchema.statics = {
   createNew(item) {
     return this.create(item);
   },
-  // tìm kiếm tất cẩ người dùng
+  // tìm kiếm tất cả người dùng là bạn bè
   findAllByUser(userId) {
     return this.find({
-      $or: [
-        { "userId": userId },
-        { "contacId": userId },
+      $and: [
+        {
+          $or: [
+            { "userId": userId },
+            { "contactId": userId }
+          ]
+        },
+        { "status": true }
       ]
-    }).exec();
+    }).sort({ "updatedAt": -1 }).exec();
   },
   // kiểm tra người dùng tồn tại
   checkExists(userId, contacId) {

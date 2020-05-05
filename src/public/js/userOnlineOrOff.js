@@ -1,3 +1,6 @@
+//
+socket.emit("check-status");
+
 // chuyển màu xanh nếu online
 socket.on("sever-send-list-users-online", function (listUserIds) {
   listUserIds.forEach(userId => {

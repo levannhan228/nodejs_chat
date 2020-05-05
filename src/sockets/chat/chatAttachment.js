@@ -7,6 +7,15 @@ let chatAttachment = (io) => {
     socket.request.user.chatGroupIds.forEach(group => {
       clients = pushSocketIdToArray(clients, group._id, socket.id);
     });
+    
+    // khi tạo group chat để xử lý real-time các xử lí chat cần nhận được id group và socketid của các thành viên để xử lí
+    socket.on("new-group-created", (data) => {
+      clients = pushSocketIdToArray(clients, data.groupChat._id, socket.id);
+    });
+    socket.on("member-received-group-chat",(data) =>{
+      clients = pushSocketIdToArray(clients, data.groupChatId, socket.id);
+    });
+
     socket.on("chat-attachment", (data) => {
       if (data.groupId) {
         let response = {
