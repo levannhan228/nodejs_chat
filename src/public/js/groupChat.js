@@ -205,22 +205,22 @@ function callCreateGroupChat() {
         $("body").append(imageModalData);
         // gọi lại hàm sắp xếp ảnh
         gridPhotos(5);
-        //
+        //  gọi modal thư viện tập tin
         let attchmentModalData = `
-      <div class="modal fade" id="attachmentsModal_${data.groupChat._id}" role="dialog">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Danh sách tệp đính kèm</h4>
-            </div>
-            <div class="modal-body">
-              <ul class="list-attachments"></ul>
+          <div class="modal fade" id="attachmentsModal_${data.groupChat._id}" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Danh sách tệp đính kèm</h4>
+                </div>
+                <div class="modal-body">
+                  <ul class="list-attachments"></ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      `;
+          `;
         $("body").append(attchmentModalData);
         // real-time
         socket.emit("new-group-created", { groupChat: data.groupChat });
@@ -240,7 +240,7 @@ $(document).ready(function () {
   callCreateGroupChat();
 
   socket.on("response-new-group-created", function (response) {
-    console.log(response)
+    // console.log(response)
     // thêm nhóm vào leftSide
     let subGroupChatName = response.groupChat.name;
     if (subGroupChatName.length > 15) {
