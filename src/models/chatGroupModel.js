@@ -24,19 +24,28 @@ ChatGroupSchema.statics = {
       "members": { $elemMatch: { "userId": userId } }
     }).sort({ "updatedAt": -1 }).limit(limit).exec();
   },
+
   getChatGroupById(id) {
     return this.findById(id).exec();
   },
+
   updateWhenHasNewMessage(id, newMessageAmount) {
     return this.findByIdAndUpdate(id, {
       "messageAmount": newMessageAmount,
       "updatedAt": Date.now()
     }).exec();
   },
+
   getChatGroupIdsByUser(userId) {
     return this.find({
       "members": { $elemMatch: { "userId": userId } }
     }, { _id: 1 }).exec();
+  },
+
+  readMoreChatGroups(userId, skip, limit){
+    return this.find({
+      "members": { $elemMatch: { "userId": userId } }
+    }).sort({ "updatedAt": -1 }).skip(skip).limit(limit).exec();
   }
 };
 

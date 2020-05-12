@@ -3,8 +3,8 @@ import UserModel from './../models/userModel';
 import ChatGroupModel from './../models/chatGroupModel';
 import MessageModel from './../models/MessageModel';
 import _ from 'lodash';
-import {transErrors} from './../../lang/vi';
-import {app} from './../config/app';
+import { transErrors } from './../../lang/vi';
+import { app } from './../config/app';
 import fsExtra from "fs-extra";
 
 const LIMIT_CONVERSATIONS_TAKEN = 10;
@@ -36,10 +36,10 @@ let getAllConversationItems = (currentUserId) => {
       // lấy tin nhắn đẩy vào màn hình
       let allConversationsWithMessagePromise = allConversations.map(async (converations) => {
         converations = converations.toObject();
-        if(converations.members){
+        if (converations.members) {
           let getMessages = await MessageModel.model.getMessagesInGroup(converations._id, LIMIT_MESSAGES_TAKEN);
           converations.messages = _.reverse(getMessages);
-        }else{
+        } else {
           let getMessages = await MessageModel.model.getMessagesInPersonal(currentUserId, converations._id, LIMIT_MESSAGES_TAKEN);
           converations.messages = _.reverse(getMessages);
         }
@@ -60,12 +60,12 @@ let getAllConversationItems = (currentUserId) => {
   });
 };
 
-let addnewTextEmoji = (sender, receivedId, messageVal, isChatGroup) =>{
-  return new Promise(async(resolve,reject)=>{
+let addnewTextEmoji = (sender, receivedId, messageVal, isChatGroup) => {
+  return new Promise(async (resolve, reject) => {
     try {
-      if(isChatGroup){
+      if (isChatGroup) {
         let getChatGroupReceived = await ChatGroupModel.getChatGroupById(receivedId);
-        if(!getChatGroupReceived){
+        if (!getChatGroupReceived) {
           return reject(transErrors.conversation_not_found);
         }
         let recived = {
@@ -74,7 +74,7 @@ let addnewTextEmoji = (sender, receivedId, messageVal, isChatGroup) =>{
           avatar: app.general_avatar_group_chat
         };
 
-        let newMessageItem ={
+        let newMessageItem = {
           senderId: sender.id,
           receiverId: recived.id,
           conversationType: MessageModel.conversationTypes.GROUP,
@@ -87,19 +87,19 @@ let addnewTextEmoji = (sender, receivedId, messageVal, isChatGroup) =>{
         //create new mess 
         let newMessage = await MessageModel.model.createNew(newMessageItem);
         // update group
-        await ChatGroupModel.updateWhenHasNewMessage(getChatGroupReceived._id,getChatGroupReceived.messageAmount + 1);
+        await ChatGroupModel.updateWhenHasNewMessage(getChatGroupReceived._id, getChatGroupReceived.messageAmount + 1);
         resolve(newMessage);
-      }else{
+      } else {
         let getUserReceived = await UserModel.getNormalUserDataById(receivedId);
-        if(!getUserReceived){
+        if (!getUserReceived) {
           return reject(transErrors.conversation_not_found);
         }
         let recived = {
           id: getUserReceived._id,
           name: getUserReceived.username,
           avatar: getUserReceived.avatar
-        }; 
-        let newMessageItem ={
+        };
+        let newMessageItem = {
           senderId: sender.id,
           receiverId: recived.id,
           conversationType: MessageModel.conversationTypes.PERSONAL,
@@ -121,12 +121,12 @@ let addnewTextEmoji = (sender, receivedId, messageVal, isChatGroup) =>{
   });
 };
 
-let addNewImage = (sender, receivedId, messageVal, isChatGroup) =>{
-  return new Promise(async(resolve,reject)=>{
+let addNewImage = (sender, receivedId, messageVal, isChatGroup) => {
+  return new Promise(async (resolve, reject) => {
     try {
-      if(isChatGroup){
+      if (isChatGroup) {
         let getChatGroupReceived = await ChatGroupModel.getChatGroupById(receivedId);
-        if(!getChatGroupReceived){
+        if (!getChatGroupReceived) {
           return reject(transErrors.conversation_not_found);
         }
         let recived = {
@@ -139,7 +139,7 @@ let addNewImage = (sender, receivedId, messageVal, isChatGroup) =>{
         let imageContentType = messageVal.mimetype;
         let imageName = messageVal.originalname;
 
-        let newMessageItem ={
+        let newMessageItem = {
           senderId: sender.id,
           receiverId: recived.id,
           conversationType: MessageModel.conversationTypes.GROUP,
@@ -152,23 +152,23 @@ let addNewImage = (sender, receivedId, messageVal, isChatGroup) =>{
         //create new mess 
         let newMessage = await MessageModel.model.createNew(newMessageItem);
         // update group
-        await ChatGroupModel.updateWhenHasNewMessage(getChatGroupReceived._id,getChatGroupReceived.messageAmount + 1);
+        await ChatGroupModel.updateWhenHasNewMessage(getChatGroupReceived._id, getChatGroupReceived.messageAmount + 1);
         resolve(newMessage);
-      }else{
+      } else {
         let getUserReceived = await UserModel.getNormalUserDataById(receivedId);
-        if(!getUserReceived){
+        if (!getUserReceived) {
           return reject(transErrors.conversation_not_found);
         }
         let recived = {
           id: getUserReceived._id,
           name: getUserReceived.username,
           avatar: getUserReceived.avatar
-        }; 
+        };
         let imageBuffer = await fsExtra.readFile(messageVal.path);
         let imageContentType = messageVal.mimetype;
         let imageName = messageVal.originalname;
 
-        let newMessageItem ={
+        let newMessageItem = {
           senderId: sender.id,
           receiverId: recived.id,
           conversationType: MessageModel.conversationTypes.PERSONAL,
@@ -190,12 +190,12 @@ let addNewImage = (sender, receivedId, messageVal, isChatGroup) =>{
   });
 };
 
-let addNewAttachment = (sender, receivedId, messageVal, isChatGroup) =>{
-  return new Promise(async(resolve,reject)=>{
+let addNewAttachment = (sender, receivedId, messageVal, isChatGroup) => {
+  return new Promise(async (resolve, reject) => {
     try {
-      if(isChatGroup){
+      if (isChatGroup) {
         let getChatGroupReceived = await ChatGroupModel.getChatGroupById(receivedId);
-        if(!getChatGroupReceived){
+        if (!getChatGroupReceived) {
           return reject(transErrors.conversation_not_found);
         }
         let recived = {
@@ -208,7 +208,7 @@ let addNewAttachment = (sender, receivedId, messageVal, isChatGroup) =>{
         let attachmentContentType = messageVal.mimetype;
         let attachmentName = messageVal.originalname;
 
-        let newMessageItem ={
+        let newMessageItem = {
           senderId: sender.id,
           receiverId: recived.id,
           conversationType: MessageModel.conversationTypes.GROUP,
@@ -221,23 +221,23 @@ let addNewAttachment = (sender, receivedId, messageVal, isChatGroup) =>{
         //create new mess 
         let newMessage = await MessageModel.model.createNew(newMessageItem);
         // update group
-        await ChatGroupModel.updateWhenHasNewMessage(getChatGroupReceived._id,getChatGroupReceived.messageAmount + 1);
+        await ChatGroupModel.updateWhenHasNewMessage(getChatGroupReceived._id, getChatGroupReceived.messageAmount + 1);
         resolve(newMessage);
-      }else{
+      } else {
         let getUserReceived = await UserModel.getNormalUserDataById(receivedId);
-        if(!getUserReceived){
+        if (!getUserReceived) {
           return reject(transErrors.conversation_not_found);
         }
         let recived = {
           id: getUserReceived._id,
           name: getUserReceived.username,
           avatar: getUserReceived.avatar
-        }; 
+        };
         let attachmentBuffer = await fsExtra.readFile(messageVal.path);
         let attachmentContentType = messageVal.mimetype;
         let attachmentName = messageVal.originalname;
 
-        let newMessageItem ={
+        let newMessageItem = {
           senderId: sender.id,
           receiverId: recived.id,
           conversationType: MessageModel.conversationTypes.PERSONAL,
@@ -258,9 +258,65 @@ let addNewAttachment = (sender, receivedId, messageVal, isChatGroup) =>{
     }
   });
 };
+
+/**
+ * xem thêm trò chuyện cá nhân và group
+ * @param {string} currentUserId 
+ * @param {number} skipPersonal 
+ * @param {number} skipGroup 
+ */
+let readMoreAllChat = (currentUserId, skipPersonal, skipGroup) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let contacts = await ContactModel.readMoreContacts(currentUserId, skipPersonal, LIMIT_CONVERSATIONS_TAKEN);
+      let userConversationsPromise = contacts.map(async (contact) => {
+        if (contact.contactId == currentUserId) {
+          let getUserContact = await UserModel.getNormalUserDataById(contact.userId);
+          getUserContact.updatedAt = contact.updatedAt;
+          return getUserContact;
+        } else {
+          let getUserContact = await UserModel.getNormalUserDataById(contact.contactId);
+          getUserContact.updatedAt = contact.updatedAt;
+          return getUserContact;
+        }
+      });
+      let userConversations = await Promise.all(userConversationsPromise);
+
+      let groupConversations = await ChatGroupModel.readMoreChatGroups(currentUserId, skipGroup, LIMIT_CONVERSATIONS_TAKEN);
+      let allConversations = userConversations.concat(groupConversations);
+
+      allConversations = _.sortBy(allConversations, (item) => {
+        return -item.updatedAt;
+      });
+
+      // lấy tin nhắn đẩy vào màn hình
+      let allConversationsWithMessagePromise = allConversations.map(async (converations) => {
+        converations = converations.toObject();
+        if (converations.members) {
+          let getMessages = await MessageModel.model.getMessagesInGroup(converations._id, LIMIT_MESSAGES_TAKEN);
+          converations.messages = _.reverse(getMessages);
+        } else {
+          let getMessages = await MessageModel.model.getMessagesInPersonal(currentUserId, converations._id, LIMIT_MESSAGES_TAKEN);
+          converations.messages = _.reverse(getMessages);
+        }
+        return converations;
+      });
+
+      let allConversationsWithMessage = await Promise.all(allConversationsWithMessagePromise);
+      // sắp xếp lại lần nữa cho chắc kèo
+      allConversationsWithMessage = _.sortBy(allConversationsWithMessage, (item) => {
+        return -item.updatedAt;
+      });
+      resolve(allConversationsWithMessage);
+    } catch (error) {
+      reject(error)
+    }
+  });
+}
 module.exports = {
   getAllConversationItems: getAllConversationItems,
   addnewTextEmoji: addnewTextEmoji,
   addNewImage: addNewImage,
-  addNewAttachment: addNewAttachment
+  addNewAttachment: addNewAttachment,
+  readMoreAllChat: readMoreAllChat
 };

@@ -13,7 +13,7 @@ let findUsersContact = (currentUserId, keyword) => {
       deprecatedUserIds.push(contact.userId);
       deprecatedUserIds.push(contact.contactId);
     });
-    console.log(contactsByUser);
+    // console.log(contactsByUser);
     deprecatedUserIds = _.uniqBy(deprecatedUserIds);
     let users = await UserModel.findAllForAllContact(deprecatedUserIds, keyword);
     resolve(users);
