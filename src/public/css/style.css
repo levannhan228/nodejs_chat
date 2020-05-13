@@ -1645,3 +1645,8 @@ label:focus,
     transform: translate(24px, 0);
   }
 }
+
+.message-loading {
+  display: block;
+  margin: 0 auto;
+}

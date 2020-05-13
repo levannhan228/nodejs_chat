@@ -27,11 +27,17 @@ let MessageSchema = new Schema({
 });
 
 MessageSchema.statics = {
-  
+
   createNew(item) {
     return this.create(item);
   },
   //senderId = người dùng hiện tại
+  /**
+   * 
+   * @param {string} senderId 
+   * @param {string} receiverId 
+   * @param {number} limit 
+   */
   getMessagesInPersonal(senderId, receiverId, limit) {
     return this.find({
       $or: [
@@ -51,9 +57,38 @@ MessageSchema.statics = {
       ]
     }).sort({ "createdAt": -1 }).limit(limit).exec();
   },
+  /**
+   * 
+   * @param {string} receiverId 
+   * @param {number} limit 
+   */
   getMessagesInGroup(receiverId, limit) {
     return this.find({ "receiverId": receiverId }).sort({ "createdAt": -1 }).limit(limit).exec();
-  }
+  },
+
+  readMoreMessagesInPersonal(senderId, receiverId, skip, limit) {
+    return this.find({
+      $or: [
+        {
+          $and: [
+            { "senderId": senderId },
+            { "receiverId": receiverId }
+          ]
+        },
+        {
+
+          $and: [
+            { "receiverId": senderId },
+            { "senderId": receiverId }
+          ]
+        }
+      ]
+    }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
+  },
+
+  readMoreMessagesInGroup(receiverId, skip, limit) {
+    return this.find({ "receiverId": receiverId }).sort({ "createdAt": -1 }).skip(skip).limit(limit).exec();
+  },
 };
 const MESSAGE_CONVERSATION_TYPES = {
   PERSONAL: "personal",
