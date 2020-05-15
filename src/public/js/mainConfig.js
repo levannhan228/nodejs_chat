@@ -203,16 +203,16 @@ function userTalk(){
   });
 }
 
-// function zoomImageChat(){
-//   $(".show-image-chat").unbind("click").on("click",function(){
-//     $("#img-chat-modal").css("display","block");
-//     $("#img-chat-modal-content").attr("src",$(this)[0].src);
-
-//     $("#img-chat-modal").on("click",function(){
-//       $(this).css("display","none");
-//     });
-//   })
-// }
+function zoomImageChat(){
+  $(".show-image-chat").unbind("click").on("click",function(){
+    $("#img-chat-modal").css("display","block");
+    $("#img-chat-modal-content").attr("src",$(this)[0].src);
+    
+    $("#img-chat-modal").on("click",function(){
+      $(this).css("display","none");
+    });
+  })
+}
 $(document).ready(function () {
   // Hide số thông báo trên đầu icon mở modal contact
   showModalContacts();
@@ -247,6 +247,6 @@ $(document).ready(function () {
   notConversations();
   // trò chuyện
   userTalk();
-  // // zoom img
-  // zoomImageChat();
+  // zoom img
+  zoomImageChat();
 });

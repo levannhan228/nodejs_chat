@@ -47,8 +47,8 @@ $(document).ready(function () {
       $(".lds-ellipsis-contacts-all-chat").css("display", "none");
       // goi lai readmore message
       readMoreMessages();
-      //
-      // zoomImageChat();
+      // zoom img
+      zoomImageChat();
       // $("body").append(data.membersModalData);
       // userTalk();
     });

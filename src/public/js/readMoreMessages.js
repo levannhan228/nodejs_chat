@@ -34,6 +34,8 @@ function readMoreMessages() {
         $(`attachmentsModal_${targetId}`).find("ul.list-attachments").append(data.attachmentModalData);
         // xóa loading
         thisDom.find("img.message-loading").remove();
+        // zoom img
+        zoomImageChat();
       });
     }
   });

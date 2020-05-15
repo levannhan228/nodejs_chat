@@ -1,3 +1,9 @@
+<div id="img-chat-modal" class="modal">
+  <!-- The Close Button -->
+  <span class="close">&times;</span>
+  <!-- Modal Content (The Image) -->
+  <img class="modal-content-img" id="img-chat-modal-content">
+</div>
 <% newAllConversations.forEach(function(conversation, index){ %>
   <% if(conversation.members){ %>
   <div class="right tab-pane" data-chat="<%= conversation._id %>"
