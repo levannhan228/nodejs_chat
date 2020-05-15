@@ -42,9 +42,15 @@ $(document).ready(function () {
 
       // check online or off
       socket.emit("check-status");
-
+      // xoa load
       $("#link-read-more-all-chat").css("display", "inline-block");
       $(".lds-ellipsis-contacts-all-chat").css("display", "none");
+      // goi lai readmore message
+      readMoreMessages();
+      //
+      // zoomImageChat();
+      // $("body").append(data.membersModalData);
+      // userTalk();
     });
   });
 });

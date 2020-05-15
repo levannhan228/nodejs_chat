@@ -1,5 +1,5 @@
 function readMoreMessages() {
-  $(".right .chat").scroll(function () {
+  $(".right .chat").unbind("scroll").on("scroll", function () {
 
     // lấy tin nhắn trên cùng
     let firstMessage = $(this).find(".bubble:first");
@@ -14,8 +14,8 @@ function readMoreMessages() {
       let chatInGroup = $(this).hasClass("chat-in-group") ? true : false;
 
       let thisDom = $(this);
-      $.get(`/message/read-more?skipMessage=${skipMessage}&targetId=${targetId}&chatInGroup=${chatInGroup}`,function(data){
-        if(data.rightSideData.trim() === ""){
+      $.get(`/message/read-more?skipMessage=${skipMessage}&targetId=${targetId}&chatInGroup=${chatInGroup}`, function (data) {
+        if (data.rightSideData.trim() === "") {
           alertify.notify("không còn tin nhắn nào trong cuộc hội thoại", "error", 5);
           thisDom.find("img.message-loading").remove()
           return false;

@@ -144,6 +144,7 @@ function callCreateGroupChat() {
           <span class="chat-menu-right">
             <a href="javascript:void(0)" class="number-members" data-toggle="modal">
               <span class="show-number-members">${data.groupChat.userAmount}</span>
+              Thành viên
               <i class="fa fa-users"></i>
             </a>
           </span>
@@ -153,6 +154,7 @@ function callCreateGroupChat() {
           <span class="chat-menu-right">
             <a href="javascript:void(0)" class="number-messages" data-toggle="modal">
               <span class="show-number-messages">${data.groupChat.messageAmount}</span>
+              Tin nhắn
               <i class="fa fa-commenting-o"></i>
             </a>
           </span>
@@ -292,6 +294,7 @@ $(document).ready(function () {
         <span class="chat-menu-right">
           <a href="javascript:void(0)" class="number-members" data-toggle="modal">
             <span class="show-number-members">${response.groupChat.userAmount}</span>
+            Thành viên
             <i class="fa fa-users"></i>
           </a>
         </span>
@@ -300,7 +303,8 @@ $(document).ready(function () {
         </span>
         <span class="chat-menu-right">
           <a href="javascript:void(0)" class="number-messages" data-toggle="modal">
-            <span class="show-number-messages">${response.groupChat.messageAmount}</span>
+            <span class="show-number-messages">${response.groupChat.messageAmount}</span>\
+            Tin nhắn
             <i class="fa fa-commenting-o"></i>
           </a>
         </span>

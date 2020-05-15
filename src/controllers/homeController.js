@@ -5,35 +5,34 @@ import request from 'request';
 
 let getICETurnServer = () => {
   return new Promise(async (resolve, reject) => {
-    // // lấy từ xirsys.net (web cho xài free turnsever 500mb xài tí là hết @@)
-    // let o = {
-    //   format: "urls"
-    // };
+    // lấy từ xirsys.net (web cho xài free turnsever 500mb xài tí là hết @@)
+    let o = {
+      format: "urls"
+    };
 
-    // let bodyString = JSON.stringify(o);
-    // let options = {
-    //   url: "https://global.xirsys.net/_turn/Chat-nodejs-LVN",
-    //   // host: "global.xirsys.net",
-    //   // path: "/_turn/Chat-nodejs-LVN",
-    //   method: "PUT",
-    //   headers: {
-    //     "Authorization": "Basic " + Buffer.from("levannhan228:cadbba5a-8b77-11ea-8d66-0242ac150002").toString("base64"),
-    //     "Content-Type": "application/json",
-    //     "Content-Length": bodyString.length
-    //   }
-    // };
+    let bodyString = JSON.stringify(o);
+    let options = {
+      url: "https://global.xirsys.net/_turn/Chat-nodejs-LVN",
+      // host: "global.xirsys.net",
+      // path: "/_turn/Chat-nodejs-LVN",
+      method: "PUT",
+      headers: {
+        "Authorization": "Basic " + Buffer.from("levannhan228:cadbba5a-8b77-11ea-8d66-0242ac150002").toString("base64"),
+        "Content-Type": "application/json",
+        "Content-Length": bodyString.length
+      }
+    };
 
-    // // đọc document của thưu viện 'request' xài thằng này gọn code hơn https mặc định
-    // request(options, (error, response, body) => {
-    //   if(error){
-    //     console.log(error);
-    //     return reject(error);
-    //   }
-    //   let bodyJson = JSON.parse(body);
-    //   resolve(bodyJson.v.iceServers)
-    // });
-
-    resolve([]);
+    // đọc document của thư viện 'request' xài thằng này gọn code hơn https mặc định
+    request(options, (error, response, body) => {
+      if(error){
+        console.log(error);
+        return reject(error);
+      }
+      let bodyJson = JSON.parse(body);
+      resolve(bodyJson.v.iceServers)
+    });
+    // resolve([]);
   });
 };
 

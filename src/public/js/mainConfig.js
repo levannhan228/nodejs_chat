@@ -10,7 +10,7 @@ function nineScrollLeft() {
   });
 }
 
-function resizeNiceScrollLeftsize(){
+function resizeNiceScrollLeftsize() {
   $('.left').getNiceScroll().resize();
 }
 
@@ -41,13 +41,13 @@ function enableEmojioneArea(divId) {
         // gán giá trị thay đổi vào input bị ẩn
         $(`#write-chat-${divId}`).val(this.getText());
       },
-      click: function(){
+      click: function () {
         // xử lí DOM cho chat văn bản + icon
         textAndEmojiChat(divId);
         // xử lí "có người đang chat"
         typingOn(divId);
       },
-      blur: function(){
+      blur: function () {
         // xóa .... ai đó đang chat
         typingOff(divId);
       }
@@ -122,7 +122,7 @@ function gridPhotos(layoutNumber) {
       }
     });
     // đóng modal
-    $(`#${modalImagesId}`).on('hidden.bs.modal',function(){
+    $(`#${modalImagesId}`).on('hidden.bs.modal', function () {
       $(this).find("div.modal-body").html(originDataImage);
     });
   });
@@ -150,7 +150,7 @@ function changeTypeChat() {
 
 function changeScreenChat() {
   $(".room-chat").unbind("click").on("click", function () {
-    
+
     let divId = $(this).find("li").data("chat");
 
     $(".person").removeClass("active");
@@ -170,17 +170,50 @@ function changeScreenChat() {
   });
 }
 
-function useEmoji(){
-    $(".convert-emoji").each(function(){
-      var original = $(this).html();
-      var converted = emojione.toImage(original);
-      $(this).html(converted);
-    });
+function useEmoji() {
+  $(".convert-emoji").each(function () {
+    var original = $(this).html();
+    var converted = emojione.toImage(original);
+    $(this).html(converted);
+  });
 }
 
 function bufferToBase64(buffer) {
   return btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''));
 }
+
+function notConversations(){
+  if(!$("ul.people").find("a").length){
+    Swal.fire({
+      title: "Bạn chưa có bạn bè? Hãy tìm kiếm bạn bè để trò chuyện",
+      type: "info",
+      showCancelButton: false,
+      confirmBttonCollor:"#2ecc71",
+      confirmBttonText:"Xác nhận",
+    }).then((result)=>{
+      $("#contactsModal").modal("show");
+    });
+  }
+}
+
+function userTalk(){
+  $(".user-talk").unbind("click").on("click",function(){
+    let dataChat = $(this).data("uid");
+    $("ul.people").find(`a[href="#uid_${dataChat}"]`).click();
+    $(this).closest("div.modal").modal("hide");
+  });
+}
+
+// function zoomImageChat(){
+//   $(".show-image-chat").unbind("click").on("click",function(){
+//     $("#img-chat-modal").css("display","block");
+//     $("#img-chat-modal-content").attr("src",$(this)[0].src);
+
+//     $("#img-chat-modal").on("click",function(){
+//       $(this).css("display","none");
+//     });
+//   })
+// }
 $(document).ready(function () {
   // Hide số thông báo trên đầu icon mở modal contact
   showModalContacts();
@@ -203,11 +236,18 @@ $(document).ready(function () {
   // Chuyển đoạn hội thoại sang người khác
   changeScreenChat();
   // Dùng thư viện conver icon dạng unicode -> img
-  useEmoji()
+  useEmoji();
   //chọn thành viên chat đầu tiên lúc mới vào
-  $("ul.people").find("a")[0].click();
-
-  $("#video-chat-group").bind("click",function(){
-    alertify.notify("Tính năng này không áp dụng với nhóm trò chuyện","error",5)
+  if ($("ul.people").find("a").length) {
+    $("ul.people").find("a")[0].click();
+  }
+  $("#video-chat-group").bind("click", function () {
+    alertify.notify("Tính năng này không áp dụng với nhóm trò chuyện", "error", 5)
   });
+  // thông báo ban đầu khi không có bạn bè
+  notConversations();
+  // trò chuyện
+  userTalk();
+  // // zoom img
+  // zoomImageChat();
 });
