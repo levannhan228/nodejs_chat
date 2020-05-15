@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Chat beta</title>
-    <link rel="shortcut icon" href="images/logo_favicon/facebook-chat-logo-png-19.png" />
+    <title>Connect Chat</title>
+    <link rel="shortcut icon" href="images/logo_favicon/logo-1.png" />
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
@@ -27,7 +27,7 @@
         <div class="col-sm-8 my-content">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1 class="login-title text-center">Welcome To My Chat</h1>
+                    <h1 class="login-title text-center">Welcome To Connect Chat <img src="images/logo_favicon/logo-1.png" width="10%" alt="logo-chat"></h1>
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
                         <br>
@@ -41,7 +41,7 @@
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8 text-center">
                     <a class="btn big-login" data-toggle="modal" href="javascript:void(0)"
-                        onclick="openLoginModal();">Đăng nhập</a>
+                        onclick="openLoginModal();">Đăng nhập</i></a>
                     <a class="btn big-register" data-toggle="modal" href="javascript:void(0)"
                         onclick="openRegisterModal();">Đăng ký</a>
                 </div>
@@ -51,7 +51,7 @@
                 <div class="col-sm-12 text-center bottom-description">
                     <br>
                     <span>
-                        " Nếu bạn có ước mơ hãy sống và khát vọng chinh phục ước mơ ! "
+                        " Nếu bạn có ước mơ, hãy sống và khát vọng chinh phục ước mơ ! "
                     </span>
                     <br>
                     <span>
@@ -66,15 +66,15 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Đăng nhập</h4>
+                        <h3 class="modal-title">Đăng nhập</h3>
                     </div>
                     <div class="modal-body">
                         
-                        <%- include("alert/alert");%>;
+                        <%- include("alert/alert");%>
 
-                        <%- include("login/login");%>;
+                        <%- include("login/login");%>
 
-                        <%- include("register/register");%>;
+                        <%- include("register/register");%>
                         
                     </div>
                     <div class="modal-footer">
