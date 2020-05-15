@@ -7,8 +7,10 @@ import { transErrors } from './../../lang/vi';
 import { app } from './../config/app';
 import fsExtra from "fs-extra";
 
+// giới hạn hiển thị trong leftSide all-contact
 const LIMIT_CONVERSATIONS_TAKEN = 10;
-const LIMIT_MESSAGES_TAKEN = 40;
+// giới hạn load tin nhắn / lần load
+const LIMIT_MESSAGES_TAKEN = 10;
 
 let getAllConversationItems = (currentUserId) => {
   return new Promise(async (resolve, reject) => {

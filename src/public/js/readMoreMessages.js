@@ -16,7 +16,7 @@ function readMoreMessages() {
       let thisDom = $(this);
       $.get(`/message/read-more?skipMessage=${skipMessage}&targetId=${targetId}&chatInGroup=${chatInGroup}`, function (data) {
         if (data.rightSideData.trim() === "") {
-          alertify.notify("không còn tin nhắn nào trong cuộc hội thoại", "error", 5);
+          // alertify.notify("không còn tin nhắn nào trong cuộc hội thoại", "error", 5);
           thisDom.find("img.message-loading").remove()
           return false;
         }

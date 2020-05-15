@@ -3,6 +3,7 @@ import UserModel from './../models/userModel';
 import NotificationModel from './../models/notificationModel';
 import _ from 'lodash';
 
+// giới hạn hiển thị bạn bè trong danh bạ
 const LIMIT_NUMBER_TAKEN = 10;
 
 let findUsersContact = (currentUserId, keyword) => {

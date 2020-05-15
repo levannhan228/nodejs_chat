@@ -6,9 +6,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="javascript:void(0)" target="__blank">
-        <img src="images/logo_favicon/smile-neon-sign_1262-19656.jpg" alt="logo-chat">
-      </a>
+      <div class="logo-title">
+        <h2>Connect Chat <img src="images/logo_favicon/logo-1.png" width="10%" alt="logo-chat"></h2>
+      </div>
     </div>
     <div class="col-sm-3 no-padding">
       <ul class="nav navbar-nav navbar-left no-padding-start">
@@ -34,12 +34,12 @@
           <a href="#contactsModal" data-toggle="modal" title="Quản lý liên lạc" id="show-modal-contacts">
             <i class="fa fa-user-plus"></i>
             <% if((countAllContactsSent + countAllContactsReceived) > 0){ %>
-              <div class="noti_contact_counter">
-                <%= countAllContactsSent + countAllContactsReceived %>
-              </div>
-              <% } else { %>
-                <div class="noti_contact_counter display-none"></div>
-              <% } %>  
+            <div class="noti_contact_counter">
+              <%= countAllContactsSent + countAllContactsReceived %>
+            </div>
+            <% } else { %>
+            <div class="noti_contact_counter display-none"></div>
+            <% } %>
           </a>
         </li>
         <li>

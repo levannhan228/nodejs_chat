@@ -188,8 +188,7 @@ function notConversations(){
       title: "Bạn chưa có bạn bè? Hãy tìm kiếm bạn bè để trò chuyện",
       type: "info",
       showCancelButton: false,
-      confirmBttonCollor:"#2ecc71",
-      confirmBttonText:"Xác nhận",
+      confirmButtonText:"Xác nhận",
     }).then((result)=>{
       $("#contactsModal").modal("show");
     });

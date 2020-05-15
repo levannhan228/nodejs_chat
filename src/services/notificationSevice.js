@@ -1,7 +1,7 @@
 import NotificationModel from './../models/notificationModel';
 import UserModel from './../models/userModel';
 import { reject } from 'bluebird';
-
+// giới hạn hiển thị thông báo
 const LIMIT_NUMBER_TAKEN = 10;
 
 let getNotifications = (currentUserId) => {
